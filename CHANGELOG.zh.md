@@ -2,6 +2,19 @@
 
 [English](./CHANGELOG.md) | 中文
 
+## 1.2.1 - 2026-01-22
+
+### 更新
+
+- **life-daily-starter**: 基于 zw (Zed Work) 工作流完全重写 - Apple Reminders 集成、僵尸工作区检测、Obsidian 双向链接
+- **life-file-organizer**: 新增质量评估模式，支持命名问题检测、MD5 哈希重复文件查找、中文危险字符检测
+
+### 技术
+
+- 两个技能现在都使用 Bun/JS 而非 Python
+- 新增危险字符检测表（【】@：——空格等）
+- 新增 --mode=assess 和 --mode=duplicates 模式
+
 ## 1.2.0 - 2026-01-22
 
 ### 新增

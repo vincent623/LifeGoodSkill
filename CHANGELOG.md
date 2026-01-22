@@ -2,6 +2,19 @@
 
 English | [中文](./CHANGELOG.zh.md)
 
+## 1.2.1 - 2026-01-22
+
+### Updated
+
+- **life-daily-starter**: Complete rewrite based on zw (Zed Work) workflow - Apple Reminders integration, zombie workspace detection, Obsidian bidirectional linking
+- **life-file-organizer**: Added quality assessment mode with naming issue detection, duplicate finder via MD5 hash, and Chinese dangerous character detection
+
+### Technical
+
+- Both skills now use Bun/JS instead of Python
+- Added dangerous character detection table (【】@：——空格等)
+- New --mode=assess and --mode=duplicates modes
+
 ## 1.2.0 - 2026-01-22
 
 ### Added

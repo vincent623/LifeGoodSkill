@@ -1,85 +1,96 @@
 ---
 name: life-daily-starter
-description: Daily morning ritual assistant that generates structured daily plans from yesterday's review. Includes habit tracking, energy check, and automatic markdown journal generation. Use when user needs morning routine guidance, daily planning, or habit building.
+description: Daily workspace launcher that creates timestamped work folders, generates AI briefings from Apple Reminders, and links with Obsidian Daily Notes. Use for morning routine, workspace management, and daily planning integration.
 ---
 
-# Daily Starter
+# Daily Starter (zw)
 
-Your morning ritual assistant for structured daily planning and reflection.
+Your morning ritual for workspace management and daily planning.
 
 ## Usage
 
 ```bash
-# Start daily routine
+# Start daily routine (creates workspace, AI briefing, opens editor)
 /life-daily-starter
 
-# Generate today's plan from yesterday's context
-npx -y bun ${SKILL_DIR}/scripts/main.py --mode plan
+# Quick status check
+/life-daily-starter --status
 
-# Log habit completion
-npx -y bun ${SKILL_DIR}/scripts/main.py --mode habit --habit "运动"
+# Connect Obsidian only
+/life-daily-starter --link-only
 
-# Check energy and mood
-npx -y bun ${SKILL_DIR}/scripts/main.py --mode checkin
+# Force new workspace
+/life-daily-starter --new
 ```
 
 ## What It Does
 
-| Input | Output |
-|-------|--------|
-| Yesterday's incomplete tasks | Today's prioritized list |
-| Habit goals | Tracking dashboard |
-| Current energy/mood | Adjusted plan |
-| Journal template | Filled daily entry |
+| Step | Action | Output |
+|------|--------|--------|
+| 1. Check | Detect zombie workspaces | Archive prompt if found |
+| 2. Create | Create timestamped workspace folder | ~/Desktop/YYYYMMDDHHMMSS/ |
+| 3. Briefing | Generate AI daily briefing | 00_AI_Briefing.md |
+| 4. Link | Connect Obsidian Daily Note | Bidirectional links |
+| 5. Launch | Open editor (Zed) | Workspace ready |
 
-## Core Features
+## Workflow Diagram
 
-### Morning Ritual (5 minutes)
+```
+┌─────────────────────────────────────────────────────┐
+│                    Daily Starter                     │
+├─────────────────────────────────────────────────────┤
+│  ┌──────────┐   ┌──────────┐   ┌──────────┐        │
+│  │  Check   │──▶│  Create  │──▶│ AI Brief │        │
+│  │Zombies   │   │Workspace │   │ from Reminders│    │
+│  └──────────┘   └──────────┘   └──────────┘        │
+│       │               │               │             │
+│       ▼               ▼               ▼             │
+│  ┌──────────┐   ┌──────────┐   ┌──────────┐        │
+│  │ Archive  │   │ Timestamp│   │  Linked  │        │
+│  │ Prompt   │   │  Folder  │   │Obsidian  │        │
+│  └──────────┘   └──────────┘   └──────────┘        │
+│                                           │         │
+│                                           ▼         │
+│                                    ┌──────────┐    │
+│                                    │   Open   │    │
+│                                    │  Editor  │    │
+│                                    └──────────┘    │
+└─────────────────────────────────────────────────────┘
+```
 
-1. **Energy Check** - Quick mood and capacity assessment
-2. **Yesterday Review** - What completed vs. carried over
-3. **Today Planning** - Generate 3 MITs (Most Important Tasks)
-4. **Habit Commitments** - Select daily habits to track
-5. **Output** - Daily markdown journal entry
+## Configuration
 
-### Daily Journal Structure
+Create `~/.life-good-skill/life-daily-starter/config.js` to customize:
 
-```markdown
-# YYYY-MM-DD Daily Journal
+```javascript
+export default {
+  // Directories
+  desktopDir: "~/Desktop",
+  archiveDir: "~/ZB/B.MyCreate/dev/Achieve",
+  obsidianDailyDir: "~/ZB/B.MyCreate/00-daily/2026",
 
-## Energy & Context
-- **Mood**: [emoji]
-- **Energy Level**: 1-10
-- **Focus Time**: [morning/afternoon/evening]
+  // Apple Reminders
+  remindersList: "Vincent's list",
 
-## Yesterday Review
-- ✅ Completed:
-- 🔄 Carried Over:
-- 📝 Notes:
+  // Editor
+  editorCmd: "zed",
 
-## Today's Priorities
-### MIT 1: [Task] - Why it matters
-### MIT 2: [Task] - Why it matters
-### MIT 3: [Task] - Why it matters
+  // Files
+  aiBriefingFile: "00_AI_Briefing.md",
+  dailyNoteLink: "00_DailyNote.md",
 
-## Habit Tracking
-- [ ] Habit 1
-- [ ] Habit 2
-- [ ] Habit 3
-
-## End of Day
-- **Wins**: What went well
-- **Learnings**: What was discovered
-- **Tomorrow**: Carry forward
+  // Format
+  timestampFormat: "%Y%m%d%H%M%S"
+}
 ```
 
 ## Best For
 
-- Morning routine consistency
-- Task management
-- Habit building
-- Daily reflection
-- Journal maintenance
+- Morning workspace creation
+- Daily planning integration
+- Obsidian workflow connection
+- AI-assisted daily briefings
+- Zed editor users
 
 ## Script Directory
 
@@ -87,24 +98,24 @@ npx -y bun ${SKILL_DIR}/scripts/main.py --mode checkin
 
 **Agent Execution Instructions**:
 1. Determine this SKILL.md file's directory path as `SKILL_DIR`
-2. Script path = `${SKILL_DIR}/scripts/main.py`
+2. Script path = `${SKILL_DIR}/scripts/main.js`
 3. Replace all `${SKILL_DIR}` in this document with the actual path
 
 **Script Reference**:
 | Script | Purpose |
 |--------|---------|
-| `scripts/main.py` | Daily starter orchestration |
-| `scripts/planner.py` | Task prioritization engine |
-| `scripts/habit.py` | Habit tracking system |
-| `scripts/journal.py` | Journal entry generator |
+| `scripts/main.js` | Main entry point, workflow orchestration |
+| `scripts/workspace.js` | Workspace creation and detection |
+| `scripts/briefing.js` | AI briefing generation |
+| `scripts/obsidian.js` | Obsidian Daily Note linking |
 
 ## Extension Support
 
 Custom styles and configurations via EXTEND.md.
 
 **Check paths** (priority order):
-1. `.life-good-skill/life-daily-starter/EXTEND.md` (project)
-2. `~/.life-good-skill/life-daily-starter/EXTEND.md` (user)
+1. `.life-good-skill/life-daily-starter/config.js` (project)
+2. `~/.life-good-skill/life-daily-starter/config.js` (user)
 
 If found, load before Step 1. Extension content overrides defaults.
 
@@ -117,28 +128,31 @@ When loaded, AI acts as:
 **Role**: Daily Productivity Coach
 
 **Context**:
-- User starts their day and needs structured planning
-- Goal: Generate actionable daily plan with task prioritization
-- Output: Markdown journal with MITs and habit tracking
+- User wants to start their day with organized workspace
+- Goal: Create daily workspace, generate briefing, connect Obsidian
+- Workflow: Check → Create → Brief → Link → Launch
 
 **Task**:
-1. Guide through energy check-in
-2. Review yesterday's incomplete tasks
-3. Generate 3 MITs with context
-4. Set daily habit commitments
-5. Create journal entry
+1. Check for zombie workspaces (old unarchived folders)
+2. Create or find today's workspace with timestamp
+3. Generate AI briefing from:
+   - Apple Reminders (incomplete tasks)
+   - Last archive context
+   - Previous AI briefing
+4. Create Obsidian Daily Note if not exists
+5. Establish bidirectional links
+6. Launch editor
 
-**Output**: `daily-journal.md` with:
-- Date header
-- Energy/mood section
-- Yesterday review section
-- Today's priorities (3 MITs)
-- Habit checklist
-- End-of-day template
+**Output**:
+- Workspace folder: `~/Desktop/YYYYMMDDHHMMSS/`
+- AI Briefing: `00_AI_Briefing.md`
+- Obsidian Link: `00_DailyNote.md` → Daily Note
+- Backlink in Obsidian → Workspace
 
-**Opening**: "早上好！让我们开始今天的启动仪式。请先完成能量检查，然后回顾昨天的情况。"
+**Opening**: "早上好！运行 /life-daily-starter 开始每日启动仪式，创建工作区并生成简报。"
 
 **Script Usage**:
 ```bash
-npx -y bun ${SKILL_DIR}/scripts/main.py --mode routine -o ./daily-$(date +%Y-%m-%d).md
+npx -y bun ${SKILL_DIR}/scripts/main.js --new  # Force new workspace
+npx -y bun ${SKILL_DIR}/scripts/main.js --status  # Check status only
 ```

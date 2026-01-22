@@ -3,50 +3,63 @@ name: life-file-organizer
 description: Automatically organize messy directories by type, date, and custom rules. Detects duplicates, cleans desktop/downloads, and generates organized folder structures. Use when user needs to clean up cluttered directories, organize downloads, or maintain file order.
 ---
 
-# File Organizer
+# Life File Organizer
 
-Automatically organize and clean up your file chaos.
+自动整理文件混乱，支持分类、去重、质量评估。
 
 ## Usage
 
 ```bash
-# Organize current directory
-/life-file-organizer
+# 完整整理流程
+npx -y bun skills/life-file-organizer/scripts/main.js ./downloads
 
-# Organize specific directory
-/life-file-organizer ./downloads
+# 仅评估质量
+npx -y bun skills/life-file-organizer/scripts/main.js ./folder --mode assess
 
-# Dry run (preview changes)
-/life-file-organizer ./desktop --dry-run
+# 仅查找重复
+npx -y bun skills/life-file-organizer/scripts/main.js ./folder --mode duplicates
 
-# Clean duplicates only
-/life-file-organizer --mode duplicates ./folder
+# 预览不执行
+npx -y bun skills/life-file-organizer/scripts/main.js ./folder --dry-run
 ```
 
 ## What It Does
 
-| Messy State | Organized State |
-|-------------|-----------------|
-| Desktop chaos | Categorized by type |
-| Downloads clutter | Dated subfolders |
-| Mixed formats | Organized structure |
-| Duplicate files | Deduplicated |
+| 混乱状态 | 整理后 |
+|----------|--------|
+| 桌面混乱 | 按类型分类 |
+| 下载堆积 | 日期归档 |
+| 混合格式 | 有序结构 |
+| 重复文件 | 去重检测 |
+| 命名问题 | 风险提示 |
 
-## File Categories
+## 评估维度
 
-| Category | Extensions |
-|----------|------------|
-| **Documents** | .pdf, .doc, .docx, .txt, .md, .xlsx, .pptx |
-| **Images** | .jpg, .png, .gif, .svg, .webp, .psd |
-| **Videos** | .mp4, .mov, .avi, .mkv, .webm |
-| **Audio** | .mp3, .wav, .flac, .m4a |
-| **Archives** | .zip, .7z, .tar, .gz, .rar |
-| **Code** | .js, .ts, .py, .html, .css, .json |
-| **Other** | Everything else |
+| 维度 | 问题 |
+|------|------|
+| 命名规范 | 特殊字符、空格、编码问题 |
+| 目录深度 | 嵌套过深、查找困难 |
+| 文件分类 | 类型混杂、无序堆放 |
+| 重复文件 | 冗余占用空间 |
+| 自动化 | 缺少 source/scripts/.git |
 
-## Organizing Strategies
+## 危险字符
 
-### By Type
+| 字符 | 问题 | 示例 |
+|------|------|------|
+| `【】` | Shell需转义 | `【主持稿】.md` |
+| `@` | Shell特殊含义 | `数据@来源.xlsx` |
+| `：` | Windows非法 | `方案：终稿.md` |
+| `、` | 非标准分隔符 | `1、任务.md` |
+| `——` | 搜索困难 | `————分隔————.md` |
+| 空格 | 需引号包裹 | `my file.doc` |
+| 全角符号 | 跨平台问题 | `（讨论）.txt` |
+
+**安全字符:** `a-z`, `A-Z`, `0-9`, `-`, `_`, `.`
+
+## 整理策略
+
+### 按类型
 ```
 folder/
 ├── Documents/
@@ -56,7 +69,7 @@ folder/
 └── Other/
 ```
 
-### By Date (Year/Month)
+### 按日期
 ```
 folder/
 ├── 2024/
@@ -66,30 +79,23 @@ folder/
     └── 01-January/
 ```
 
-### By Project
-```
-folder/
-├── Project-A/
-├── Project-B/
-└── Project-C/
-```
+## 功能
 
-## Features
-
-- **Auto Classification** - Detect and sort by file type
-- **Duplicate Detection** - Find identical files by hash
-- **Desktop Cleanup** - Special handling for desktop
-- **Downloads Management** - Date-based organization
-- **Dry Run** - Preview before applying
-- **Undo Support** - Restore original structure
+- 自动分类 - 检测并按类型排序
+- 重复检测 - MD5哈希查找相同文件
+- 桌面清理 - 特殊处理桌面目录
+- 下载管理 - 日期归档
+- 预览模式 - 先预览再执行
+- 质量评估 - 命名/结构/自动化检测
+- 报告生成 - 保存整理报告
 
 ## Best For
 
-- Desktop cleanup
-- Downloads folder management
-- Project folder organization
-- Photo library maintenance
-- Document archiving
+- 桌面清理
+- 下载文件夹管理
+- 项目文件夹整理
+- 文档归档
+- 重复文件清理
 
 ## Script Directory
 
@@ -97,16 +103,15 @@ folder/
 
 **Agent Execution Instructions**:
 1. Determine this SKILL.md file's directory path as `SKILL_DIR`
-2. Script path = `${SKILL_DIR}/scripts/main.py`
+2. Script path = `${SKILL_DIR}/scripts/main.js`
 3. Replace all `${SKILL_DIR}` in this document with the actual path
 
 **Script Reference**:
 | Script | Purpose |
 |--------|---------|
-| `scripts/main.py` | Main entry point, orchestration |
-| `scripts/classifier.py` | File type detection and classification |
-| `scripts/duplicates.py` | Duplicate file finder |
-| `scripts/cleaner.py` | Desktop/downloads cleanup |
+| `scripts/main.js` | 主入口，组织流程 |
+| `scripts/classifier.js` | 文件类型检测分类 |
+| `scripts/duplicates.js` | 重复文件查找 |
 
 ## Extension Support
 
@@ -128,32 +133,28 @@ When loaded, AI acts as:
 
 **Context**:
 - User provides a messy directory that needs organization
-- Goal: Automatically sort files by type, date, or custom rules
-- Output: Organized directory structure with moved files
+- Goal: Automatically sort files by type, detect issues, generate report
+- Output: Organized directory with assessment report
 
 **Task**:
 1. Scan directory for all files
-2. Classify files by extension/type
-3. Apply organizing strategy (type/date/project)
-4. Handle duplicates (report or remove)
-5. Generate organization report
+2. Assess quality (naming, structure, automation)
+3. Classify files by extension/type
+4. Find duplicates by hash
+5. Apply organizing strategy
+6. Generate report
 
-**Output**: Organized directory with:
-- Categorized subfolders
-- Moved files (preserving metadata)
-- Duplicate report
-- Change log
+**Output**:
+- 分类子目录
+- 整理报告 (file-organization-report.md)
+- 重复文件列表
+- 命名问题清单
 
-**Process**:
-1. Scan and count files
-2. Classify into categories
-3. Create folder structure
-4. Move files (with --dry-run option)
-5. Generate report
-
-**Opening**: "请提供需要整理的目录，我将自动分类文件并创建有序的结构。"
+**Opening**: "请提供需要整理的目录，我将自动分类文件、检测问题并生成整理报告。"
 
 **Script Usage**:
 ```bash
-npx -y bun ${SKILL_DIR}/scripts/main.py ./downloads --strategy date --dry-run
+npx -y bun ${SKILL_DIR}/scripts/main.js ./downloads --dry-run
+npx -y bun ${SKILL_DIR}/scripts/main.js ./folder --mode assess
+npx -y bun ${SKILL_DIR}/scripts/main.js ./folder --mode duplicates
 ```
