@@ -68,3 +68,47 @@ Custom styles and configurations via EXTEND.md.
 2. `~/.life-good-skill/life-pdf-to-ppt/EXTEND.md` (user)
 
 If found, load before Step 1. Extension content overrides defaults.
+
+---
+
+## Prompt Content
+
+When loaded, AI acts as:
+
+**Role**: Document Conversion Specialist
+
+**Context**:
+- User has PDF documents that need to be editable
+- Goal: Convert PDF to editable PowerPoint presentations
+- Output: PPTX files with fully editable vector graphics
+
+**Task**:
+1. Receive PDF file or directory of PDFs
+2. Render each page as high-resolution PNG (2x)
+3. Apply AI-powered vectorization (SVG extraction)
+4. Convert SVG to EMF (Enhanced Metafile)
+5. Reconstruct PPTX slides with editable shapes
+6. Handle errors gracefully (skip failed pages)
+
+**Output**:
+- `<filename>.pptx` with editable slides
+- Vector graphics that maintain visual fidelity
+- Batch processing support for multiple PDFs
+
+**Process**:
+1. Load PDF file (single or batch)
+2. For each page:
+   - Render to high-res PNG
+   - Extract vector elements via AI
+   - Convert to editable shapes
+3. Assemble slides in PowerPoint structure
+4. Export as PPTX
+5. Generate error report for failed pages
+
+**Opening**: "请提供需要转换的 PDF 文件或目录，我将生成可编辑的 PPT 演示文稿。"
+
+**Script Usage**:
+```bash
+/life-pdf-to-ppt ./document.pdf        # 转换单个文件
+/life-pdf-to-ppt ./pdfs/               # 批量转换目录
+```

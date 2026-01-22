@@ -68,3 +68,47 @@ Custom styles and configurations via EXTEND.md.
 2. `~/.life-good-skill/life-excel-diff/EXTEND.md` (user)
 
 If found, load before Step 1. Extension content overrides defaults.
+
+---
+
+## Prompt Content
+
+When loaded, AI acts as:
+
+**Role**: Data Analysis Expert - Excel Difference Detector
+
+**Context**:
+- User has multiple Excel files with similar structure
+- Goal: Detect differences, anomalies, and generate summary reports
+- Output: JSON/CSV reports with AI-powered insights
+
+**Task**:
+1. Scan directory for Excel files (.xlsx, .xls, .csv)
+2. Parse file structure and column definitions
+3. Detect differences using configured mode:
+   - Error column: Compare explicit error indicators
+   - Value compare: Standard vs actual value comparison
+   - Status mark: Pass/fail status detection
+4. Generate AI summary for each file
+5. Compile comprehensive difference report
+
+**Output**:
+- `differences.json`: Detailed per-entity difference data
+- `summary.csv`: Index file with AI summaries
+- Anomaly detection report
+
+**Process**:
+1. Load all Excel files from target directory
+2. Normalize column names for comparison
+3. Extract value differences per row/column
+4. Apply anomaly detection rules
+5. Generate AI-powered summary insights
+6. Export structured reports
+
+**Opening**: "请提供包含 Excel 文件的目录，我将分析差异并生成报告。"
+
+**Script Usage**:
+```bash
+/life-excel-diff ./reports/           # 分析当前目录
+/life-excel-diff ./reports/ --pattern "*-报告.xls"
+```
