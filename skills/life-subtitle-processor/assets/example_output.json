@@ -1,0 +1,74 @@
+{
+  "source_file": "2025年案例分析真题解析-第一题.md",
+  "video_title": "2025年案例分析真题解析-第一题",
+  "total_duration_seconds": 2100,
+  "slice_count": 6,
+  "slices": [
+    {
+      "slice_id": 1,
+      "slice_name": "导学与背景介绍",
+      "knowledge_type": "概论",
+      "start_time_seconds": 0,
+      "end_time_seconds": 350,
+      "start_time_formatted": "00:00:00",
+      "end_time_formatted": "00:05:50",
+      "key_keywords": ["导学", "背景", "介绍"],
+      "brief_intro": "视频开篇介绍本节内容的背景和学习目标"
+    },
+    {
+      "slice_id": 2,
+      "slice_name": "基本概念与规范要求",
+      "knowledge_type": "概念",
+      "start_time_seconds": 350,
+      "end_time_seconds": 700,
+      "start_time_formatted": "00:05:50",
+      "end_time_formatted": "00:11:40",
+      "key_keywords": ["概念", "规范", "定义"],
+      "brief_intro": "详细解释建筑计量的核心概念和国家规范要求"
+    },
+    {
+      "slice_id": 3,
+      "slice_name": "计算方法与公式演示",
+      "knowledge_type": "计算",
+      "start_time_seconds": 700,
+      "end_time_seconds": 1050,
+      "start_time_formatted": "00:11:40",
+      "end_time_formatted": "00:17:30",
+      "key_keywords": ["计算", "公式", "演示"],
+      "brief_intro": "演示具体的计算公式和步骤说明"
+    },
+    {
+      "slice_id": 4,
+      "slice_name": "真题案例分析（第1题）",
+      "knowledge_type": "案例",
+      "start_time_seconds": 1050,
+      "end_time_seconds": 1400,
+      "start_time_formatted": "00:17:30",
+      "end_time_formatted": "00:23:20",
+      "key_keywords": ["真题", "案例", "分析"],
+      "brief_intro": "通过实际真题详细讲解解题思路和方法"
+    },
+    {
+      "slice_id": 5,
+      "slice_name": "常见错误与易误点",
+      "knowledge_type": "总结",
+      "start_time_seconds": 1400,
+      "end_time_seconds": 1750,
+      "start_time_formatted": "00:23:20",
+      "end_time_formatted": "00:29:10",
+      "key_keywords": ["易误点", "错误", "提醒"],
+      "brief_intro": "总结学生常犯的错误和需要注意的关键要点"
+    },
+    {
+      "slice_id": 6,
+      "slice_name": "知识点总结与复习",
+      "knowledge_type": "总结",
+      "start_time_seconds": 1750,
+      "end_time_seconds": 2100,
+      "start_time_formatted": "00:29:10",
+      "end_time_formatted": "00:35:00",
+      "key_keywords": ["总结", "回顾", "要点"],
+      "brief_intro": "对本节重点内容进行完整回顾和梳理"
+    }
+  ]
+}

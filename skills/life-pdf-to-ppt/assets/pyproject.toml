@@ -1,0 +1,38 @@
+[project]
+name = "pdf-chart-to-ppt"
+version = "0.1.0"
+description = "将 PDF 图表通过 AI 矢量化转换为可编辑的 PowerPoint 演示文稿"
+readme = "README.md"
+requires-python = ">=3.13"
+license = { text = "MIT" }
+authors = [
+    { name = "Vincent", email = "your.email@example.com" }
+]
+keywords = ["pdf", "ppt", "ai", "vectorization", "svg", "openrouter"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+]
+
+dependencies = [
+    "pymupdf>=1.23.0",
+    "openai>=1.0.0",
+    "python-pptx>=0.6.23",
+    "python-dotenv>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://cnb.cool"
+Repository = "https://cnb.cool/your-repo"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = []
+
+[project.scripts]
+pdf2ppt = "main:main"

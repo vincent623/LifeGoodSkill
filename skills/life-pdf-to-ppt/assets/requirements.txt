@@ -1,0 +1,14 @@
+# PDF Chart to Editable PPT - Python Dependencies
+# Install with: uv pip install -r requirements.txt
+
+# PDF Processing
+pymupdf>=1.23.0
+
+# AI API Client (OpenRouter)
+openai>=1.0.0
+
+# PowerPoint Generation
+python-pptx>=0.6.23
+
+# Environment Variables Management
+python-dotenv>=1.0.0
