@@ -21,6 +21,12 @@ npx -y bun skills/life-compass/scripts/main.js --update
 # 季度校准
 npx -y bun skills/life-compass/scripts/main.js --calibrate
 
+# 生成可视化界面（HTML）
+npx -y bun skills/life-compass/scripts/main.js --visualize
+
+# 生成可视化并在浏览器打开
+npx -y bun skills/life-compass/scripts/main.js --visualize --open
+
 # 打印版本（PDF友好）
 npx -y bun skills/life-compass/scripts/main.js --print
 ```
@@ -110,8 +116,7 @@ life-compass/
 | Script | Purpose |
 |--------|---------|
 | `scripts/main.js` | Main orchestration, element creation |
-| `scripts/calibrate.js` | Quarterly calibration logic |
-| `scripts/visualizer.js` | ASCII/HTML visualization |
+| `scripts/visualizer.js` | HTML visualization generation |
 
 ## Extension Support
 
@@ -163,5 +168,6 @@ When loaded, AI acts as:
 npx -y bun ${SKILL_DIR}/scripts/main.js --create        # 创建新罗盘
 npx -y bun ${SKILL_DIR}/scripts/main.js --update        # 更新
 npx -y bun ${SKILL_DIR}/scripts/main.js --calibrate     # 校准
+npx -y bun ${SKILL_DIR}/scripts/main.js --visualize     # 生成可视化
 npx -y bun ${SKILL_DIR}/scripts/main.js --print         # 打印版
 ```

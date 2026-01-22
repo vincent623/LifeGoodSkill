@@ -162,6 +162,8 @@ async function main() {
   const update = args.includes("--update");
   const calibrate = args.includes("--calibrate");
   const print = args.includes("--print");
+  const visualize = args.includes("--visualize") || args.includes("-v");
+  const open = args.includes("--open");
   
   console.log(`${COLORS.cyan}╔════════════════════════════════════════╗${COLORS.nc}`);
   console.log(`${COLORS.cyan}║         Life Compass - 人生罗盘          ║${COLORS.nc}`);
@@ -259,6 +261,30 @@ ${ELEMENTS.slice(0, 3).map(e => `| ${e.title} | - | ${"| - |"}`).join("\n")}
     console.log(`\n${COLORS.cyan}━━━ 打印版本预览 ━━━${COLORS.nc}`);
     console.log("（双栏布局，适合打印或PDF导出）\n");
     console.log(`${COLORS.gray}提示: 使用浏览器打印功能，选择双面打印${COLORS.nc}`);
+  }
+
+  if (visualize) {
+    section("生成可视化");
+    const visualizerPath = join(__dirname, "visualizer.js");
+    const visualizerArgs = ["run", visualizerPath, compassFile];
+    if (open) visualizerArgs.push("--open");
+
+    log("调用可视化生成器...");
+    const result = Bun.spawnSync({
+      cmd: ["bun", ...visualizerArgs],
+      env: { ...process.env, COMPASS_PATH: compassFile, OUTPUT_DIR: outputDir }
+    });
+
+    if (result.success) {
+      success("可视化已生成！");
+      console.log(`${COLORS.blue}输出: ${outputDir}/life-compass-visual.html${COLORS.nc}`);
+      if (open) {
+        log("正在浏览器中打开...");
+        Bun.spawn(["open", `${outputDir}/life-compass-visual.html`]);
+      }
+    } else {
+      console.error(`${COLORS.red}可视化生成失败${COLORS.nc}`);
+    }
   }
   
   console.log(`\n${COLORS.cyan}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${COLORS.nc}`);
