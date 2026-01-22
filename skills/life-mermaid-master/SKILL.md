@@ -1,59 +1,83 @@
 ---
 name: life-mermaid-master
-description: Mermaid diagram generator that creates clear, professional flowcharts from user requirements. Uses Minto Pyramid thinking for structured analysis. Use when user needs flowcharts, process diagrams, or system architecture visualization.
+description: Generates Mermaid diagrams from text. Use when creating flowcharts, sequences, classes, gantt, or pie charts. Supports ratios, colors, validation, and HTML export.
 ---
 
 # Mermaid Diagram Master
 
-Create professional Mermaid flowcharts using structured thinking and clear visual design.
+Generate Mermaid diagrams from text with validation and optimization.
 
-## Usage
+## Quick Start
 
 ```bash
-# Generate flowchart from description
-/life-mermaid-master
+# Basic flowchart
+npx -y bun ${SKILL_DIR}/scripts/main.py "用户注册 -> 验证邮箱 -> 完成" -o flowchart.html
 
-# Describe your process or system when prompted
-# e.g., "A customer order fulfillment workflow"
+# Sequence diagram
+npx -y bun ${SKILL_DIR}/scripts/main.py "API调用流程" -t sequence -r 16:9 -c green
+
+# From template
+npx -y bun ${SKILL_DIR}/scripts/main.py --template gantt-project -o project.html
+
+# Generate samples
+npx -y bun ${SKILL_DIR}/scripts/main.py --sample
 ```
 
-## Features
+## Options
 
-- **Structured Analysis**: Uses Minto Pyramid thinking for clear logic
-- **Universal Templates**: Works for business processes, decisions, system architecture
-- **Clean Layout**: Balanced proportions (1:1, 4:3, 3:4, 5:4, 4:5)
-- **Standard Syntax**: Readable and maintainable Mermaid code
-- **Professional Styling**: Consistent colors, borders, and connectors
+| Option | Description |
+|--------|-------------|
+| `-t, --type` | Diagram: flowchart, sequence, class, state, er, gantt, pie, mindmap |
+| `-r, --ratio` | Ratio: 4:3, 3:4, 16:9, 1:1, 3:2, 2:3 |
+| `-c, --scheme` | Color: blue, green, purple, orange |
+| `-i, --input` | Input file |
+| `-o, --output` | Output file |
+| `-s, --sample` | Generate sample diagrams |
+| `--template` | Use built-in template |
+| `--validate-only` | Validate syntax only |
 
-## Best For
+## Layout Guide
 
-- Business process flows
-- Decision trees
-- System architecture diagrams
-- Workflow documentation
-- Logic visualization
+**4-Step Process**: Count blocks → Set ratio → Choose direction → Balance nodes
 
-## Output Format
+| Subgraphs | Ratio | Min Width |
+|-----------|-------|-----------|
+| 2-6 | 4:3 | 800px |
+| 7-12 | 16:9 | 950px |
 
-```mermaid
-graph LR
-    A[Start] --> B[Process]
-    B --> C[End]
-    
-    subgraph Subprocess
-        B1[Step 1] --> B2[Step 2]
-    end
-    
-    style A fill:#ffecec,stroke:#f56c6c
-    style B fill:#ffffff,stroke:#f56c6c
-```
+Details: [layout.md](references/layout.md) | [Anti-patterns](references/layout.md#anti-patterns--fixes)
+
+## References
+
+- [Templates](references/templates.md) - Diagram templates, colors, ratios
+- [Layout](references/layout.md) - Optimization guide, anti-patterns
 
 ## Extension Support
 
-Custom styles and configurations via EXTEND.md.
+Custom styles via EXTEND.md (priority):
+1. `.life-good-skill/life-mermaid-master/EXTEND.md`
+2. `~/.life-good-skill/life-mermaid-master/EXTEND.md`
 
-**Check paths** (priority order):
-1. `.life-good-skill/life-mermaid-master/EXTEND.md` (project)
-2. `~/.life-good-skill/life-mermaid-master/EXTEND.md` (user)
+---
 
-If found, load before Step 1. Extension content overrides defaults.
+## Prompt Content
+
+When loaded, AI acts as a Mermaid Diagram Expert.
+
+**When**: User needs diagrams from text (flowcharts, sequences, timelines, visualizations).
+
+**Task**:
+1. Parse requirements with Minto Pyramid thinking
+2. Apply layout: blocks → ratio (4:3 for 2-6, 16:9 for 7-12) → direction (TB/LR) → balance (max 6 nodes)
+3. Generate Mermaid code with subgraph layout, Chinese labels, validated syntax
+4. Export HTML with embedded Mermaid.js
+
+**Output**:
+- Mermaid code block
+- HTML file
+- Validation summary
+
+**Common Issues**:
+- `classDef` needs `%%` prefix
+- Mindmap doesn't support `::` styling
+- Use `min-width: 950px` for 7+ subgraphs

@@ -66,7 +66,7 @@ npx skills add <owner>/LifeGoodSkill
 
 | 插件 | 描述 | 技能 |
 |------|------|------|
-| **life-skills** | 生活提升技能 | [Dotfiles管理](#life-dotfiles-manager)、[Excel差异分析](#life-excel-diff)、[意图委员会](#life-intention-committee)、[Markdown整理](#life-markdown-normalizer)、[Mermaid大师](#life-mermaid-master)、[会议纪要](#life-meeting-summary)、[OKR生成器](#life-okr-generator)、[PDF转PPT](#life-pdf-to-ppt)、[问题解决器](#life-problem-solver)、[自我评估](#life-self-assessment)、[字幕处理器](#life-subtitle-processor)、[文字校对](#life-text-proofreader)、[转录助手](#life-transcription)、[翻译助手](#life-translation) |
+| **life-skills** | 生活提升技能 | [决策分析](#life-decision-analysis)、[Dotfiles管理](#life-dotfiles-manager)、[Excel差异分析](#life-excel-diff)、[Mermaid图表生成](#life-generating-mermaid-diagrams)、[面试指南](#life-interview-guide)、[Markdown整理](#life-markdown-normalizer)、[Mermaid大师](#life-mermaid-master)、[会议纪要](#life-meeting-summary)、[OKR生成器](#life-okr-generator)、[PDF转PPT](#life-pdf-to-ppt)、[自我认知](#life-self-awareness)、[字幕处理器](#life-subtitle-processor)、[任务分解](#life-task-breakdown)、[文字校对](#life-text-proofreader)、[转录助手](#life-transcription)、[翻译助手](#life-translation) |
 
 ## 更新技能
 
@@ -80,6 +80,14 @@ npx skills add <owner>/LifeGoodSkill
 你也可以**启用自动更新**以自动获取最新版本。
 
 ## 可用技能
+
+### life-decision-analysis
+
+多角度决策分析器，使用六顶思考帽框架进行多轮辩论模拟和加权评分。
+
+```bash
+/life-decision-analysis
+```
 
 ### life-dotfiles-manager
 
@@ -99,23 +107,23 @@ npx skills add <owner>/LifeGoodSkill
 /life-excel-diff ./reports/
 ```
 
-### life-intention-committee
+### life-generating-mermaid-diagrams
 
-意图发掘助手，使用六顶思考帽框架从多个角度分析用户目标。
+将文本内容转换为专业的 Mermaid 图表，支持验证、布局优化和 HTML 导出。
 
 ```bash
-/life-intention-committee
+npx -y bun skills/generating-mermaid-diagrams/scripts/main.js "流程描述" -t flowchart -o diagram.html
+```
+
+### life-interview-guide
+
+面试准备分析器，对比简历和职位描述，生成优先级排序的问题列表，并识别技能差距。
+
+```bash
+/life-interview-guide
 ```
 
 ### life-markdown-normalizer
-
-使用统一的时间戳命名、YAML frontmatter和智能标签生成来标准化Markdown笔记。
-
-```bash
-/life-markdown-normalizer ./notes/
-```
-
-### life-mermaid-master
 
 使用结构化思维和清晰视觉设计创建专业的 Mermaid 流程图。
 
@@ -147,20 +155,12 @@ npx skills add <owner>/LifeGoodSkill
 /life-pdf-to-ppt ./document.pdf
 ```
 
-### life-problem-solver
+### life-self-awareness
 
-专业问题解决顾问，使用四层框架（调度→领域→应用→工具）。
-
-```bash
-/life-problem-solver
-```
-
-### life-self-assessment
-
-自我评估矫正工具，为您的自我评价提供客观反馈。
+认知偏见分析器，检查自我评估文档，检测过度自信、信心不足和冒充者综合征模式。
 
 ```bash
-/life-self-assessment
+/life-self-awareness
 ```
 
 ### life-subtitle-processor
@@ -169,6 +169,14 @@ npx skills add <owner>/LifeGoodSkill
 
 ```bash
 /life-subtitle-processor ./video.srt
+```
+
+### life-task-breakdown
+
+问题分解工具，将复杂问题转换为可执行的任务列表，包含甘特图和依赖关系可视化。
+
+```bash
+/life-task-breakdown
 ```
 
 ### life-text-proofreader

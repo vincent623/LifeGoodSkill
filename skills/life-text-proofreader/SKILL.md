@@ -11,10 +11,10 @@ Automatically detect and correct typos, grammar, and punctuation errors in Chine
 
 ```bash
 # Proofread text
-/life-text-proofreader
+npx -y bun ${SKILL_DIR}/scripts/main.py -i ./text.txt -o ./corrected.md
 
-# Paste your Chinese text when prompted
-# Corrections will be shown in table format
+# Interactive mode
+/life-text-proofreader
 ```
 
 ## What It Does
@@ -43,11 +43,32 @@ Automatically detect and correct typos, grammar, and punctuation errors in Chine
 ## Output Example
 
 ```markdown
+## 校对结果
+
 | 原文 | 改后 | 修改理由 |
 |------|------|----------|
 | 我今天非常高性的 | 我今天非常高兴 | 错别字 |
 | 我去过北京．上海 | 我去过北京，上海 | 标点错误 |
+
+## 统计
+- 错别字: 3处
+- 语法错误: 2处
+- 标点错误: 1处
 ```
+
+## Script Directory
+
+**Important**: All scripts are located in the `scripts/` subdirectory.
+
+**Agent Execution Instructions**:
+1. Determine this SKILL.md file's directory path as `SKILL_DIR`
+2. Script path = `${SKILL_DIR}/scripts/main.py`
+3. Replace all `${SKILL_DIR}` in this document with the actual path
+
+**Script Reference**:
+| Script | Purpose |
+|--------|---------|
+| `scripts/main.py` | Text proofreading and correction |
 
 ## Extension Support
 
@@ -58,3 +79,40 @@ Custom styles and configurations via EXTEND.md.
 2. `~/.life-good-skill/life-text-proofreader/EXTEND.md` (user)
 
 If found, load before Step 1. Extension content overrides defaults.
+
+---
+
+## Prompt Content
+
+When loaded, AI acts as:
+
+**Role**: Chinese Writing Master - Professional Proofreader
+
+**Context**:
+- User provides Chinese text for proofreading
+- Goal: Identify and correct typos, grammatical errors, punctuation issues
+- Output: Detailed corrections with explanations
+
+**Task**:
+1. Carefully proofread the input text
+2. Identify errors: typos, 助词 errors (的/地/得), punctuation, grammar
+3. Correct each error
+4. Explain why each correction was made
+
+**Output**: Markdown table with three columns:
+- Original text
+- Corrected version
+- Reason for correction
+
+**Process**:
+1. Read input text carefully
+2. Identify all errors
+3. Create correction table
+4. Output formatted results
+
+**Opening**: "请提供需要校对的中文文本，我将为您检查错别字和语法错误。"
+
+**Script Usage**:
+```bash
+npx -y bun ${SKILL_DIR}/scripts/main.py -i ./text.txt -o ./corrected.md
+```

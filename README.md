@@ -50,7 +50,7 @@ Simply tell Claude Code:
 
 | Plugin | Description | Skills |
 |--------|-------------|--------|
-| **life-skills** | Life improvement skills | [dotfiles-manager](#life-dotfiles-manager), [excel-diff](#life-excel-diff), [intention-committee](#life-intention-committee), [markdown-normalizer](#life-markdown-normalizer), [mermaid-master](#life-mermaid-master), [meeting-summary](#life-meeting-summary), [okr-generator](#life-okr-generator), [pdf-to-ppt](#life-pdf-to-ppt), [problem-solver](#life-problem-solver), [self-assessment](#life-self-assessment), [subtitle-processor](#life-subtitle-processor), [text-proofreader](#life-text-proofreader), [transcription](#life-transcription), [translation](#life-translation) |
+| **life-skills** | Life improvement skills | [decision-analysis](#life-decision-analysis), [dotfiles-manager](#life-dotfiles-manager), [excel-diff](#life-excel-diff), [generating-mermaid-diagrams](#life-generating-mermaid-diagrams), [interview-guide](#life-interview-guide), [markdown-normalizer](#life-markdown-normalizer), [mermaid-master](#life-mermaid-master), [meeting-summary](#life-meeting-summary), [okr-generator](#life-okr-generator), [pdf-to-ppt](#life-pdf-to-ppt), [self-awareness](#life-self-awareness), [subtitle-processor](#life-subtitle-processor), [task-breakdown](#life-task-breakdown), [text-proofreader](#life-text-proofreader), [transcription](#life-transcription), [translation](#life-translation) |
 
 ## Update Skills
 
@@ -64,6 +64,14 @@ To update skills to the latest version:
 You can also **Enable auto-update** to get the latest versions automatically.
 
 ## Available Skills
+
+### life-decision-analysis
+
+Multi-perspective decision analyzer using Six Thinking Hats with multi-round debate simulation and weighted scoring.
+
+```bash
+/life-decision-analysis
+```
 
 ### life-dotfiles-manager
 
@@ -83,12 +91,20 @@ Batch analyze multiple Excel files with consistent structure, extract difference
 /life-excel-diff ./reports/
 ```
 
-### life-intention-committee
+### life-generating-mermaid-diagrams
 
-Intention discovery assistant using Six Thinking Hats framework. Analyzes user goals from multiple perspectives.
+Transform text content into professional Mermaid diagrams with CLI tool. Supports validation, layout optimization, and HTML export.
 
 ```bash
-/life-intention-committee
+npx -y bun skills/generating-mermaid-diagrams/scripts/main.js "流程描述" -t flowchart -o diagram.html
+```
+
+### life-interview-guide
+
+Interview preparation analyzer that compares resume and job description to generate priority-ranked questions and identifies skill gaps.
+
+```bash
+/life-interview-guide
 ```
 
 ### life-markdown-normalizer
@@ -131,20 +147,12 @@ Convert PDF pages to editable PowerPoint presentations using AI-powered vectoriz
 /life-pdf-to-ppt ./document.pdf
 ```
 
-### life-problem-solver
+### life-self-awareness
 
-Professional problem-solving consultant using four-tier framework (Dispatch → Domain → Application → Tools).
-
-```bash
-/life-problem-solver
-```
-
-### life-self-assessment
-
-Self-assessment correction tool that provides objective feedback on your self-evaluations.
+Cognitive bias analyzer that examines self-evaluation documents and detects overestimation, underconfidence, and imposter syndrome patterns.
 
 ```bash
-/life-self-assessment
+/life-self-awareness
 ```
 
 ### life-subtitle-processor
@@ -153,6 +161,14 @@ Convert video subtitles to structured knowledge slices with format conversion an
 
 ```bash
 /life-subtitle-processor ./video.srt
+```
+
+### life-task-breakdown
+
+Problem decomposition tool that converts complex problems into actionable task lists with Gantt charts and dependency visualization.
+
+```bash
+/life-task-breakdown
 ```
 
 ### life-text-proofreader
