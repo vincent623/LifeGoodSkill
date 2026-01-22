@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Skills for improving daily life efficiency",
-    "version": "1.2.1"
+    "version": "1.3.0"
   },
   "plugins": [
     {
@@ -32,7 +32,11 @@
         "./skills/life-task-breakdown",
         "./skills/life-text-proofreader",
         "./skills/life-transcription",
-        "./skills/life-translation"
+        "./skills/life-translation",
+        "./skills/life-compass",
+        "./skills/life-evening-review",
+        "./skills/life-interrupt-prompts",
+        "./skills/life-vision-protocol"
       ]
     }
   ]

@@ -2,6 +2,25 @@
 
 [English](./CHANGELOG.md) | 中文
 
+## 1.3.0 - 2026-01-22
+
+### 新增
+
+- **life-vision-protocol**: 基于"一天改善人生协议 Part 1"的 Anti-Vision 与愿景发现引导
+- **life-interrupt-prompts**: 日间打断提示生成器，打破自动巡航模式 (Part 2)
+- **life-evening-review**: 晚间复盘协议，整合洞察、设定次日行动 (Part 3)
+- **life-compass**: 6要素人生罗盘导航系统 (终极综合)
+
+### 更改
+
+- 为 6 个技能添加了 Prompt Content 章节
+
+### 技术
+
+- 所有新技能使用 Bun/JS 而非 Python
+- 遵循 skill-builder 最佳实践，完整的 YAML 前言
+- 包含 Script Directory 和 Extension Support 章节
+
 ## 1.2.1 - 2026-01-22
 
 ### 更新

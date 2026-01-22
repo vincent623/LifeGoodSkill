@@ -2,6 +2,25 @@
 
 English | [中文](./CHANGELOG.zh.md)
 
+## 1.3.0 - 2026-01-22
+
+### Added
+
+- **life-vision-protocol**: Guided protocol for Anti-Vision and Vision discovery based on "How to fix your entire life in 1 day" Part 1
+- **life-interrupt-prompts**: Daily interrupt prompts generator to break autopilot mode (Part 2)
+- **life-evening-review**: Evening synthesis protocol for insight integration and next day planning (Part 3)
+- **life-compass**: 6-element Life Compass navigation system (Part 3+ synthesis)
+
+### Changed
+
+- Added Prompt Content section to 6 skills (generating-mermaid-diagrams, life-dotfiles-manager, life-excel-diff, life-markdown-normalizer, life-pdf-to-ppt, life-subtitle-processor)
+
+### Technical
+
+- All new skills use Bun/JS instead of Python
+- Follows skill-builder best practices with complete YAML frontmatter
+- Includes Script Directory and Extension Support sections
+
 ## 1.2.1 - 2026-01-22
 
 ### Updated

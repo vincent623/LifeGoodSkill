@@ -84,6 +84,10 @@ npx skills add <owner>/LifeGoodSkill
 | **life-text-proofreader** | 专业中文文字校对，识别并纠正错别字和语法错误 |
 | **life-transcription** | 音频内容的转录整理工具 |
 | **life-translation** | 专业文章翻译工具，支持多种模式 |
+| **life-compass** | 6要素人生罗盘导航系统，包含反愿景、愿景、目标和约束条件 |
+| **life-evening-review** | 晚间复盘协议，用于每日洞察整合和次日计划 |
+| **life-interrupt-prompts** | 日间打断提示生成器，打破自动巡航模式 |
+| **life-vision-protocol** | 引导式协议，用于发现反愿景和愿景 |
 
 ## 更新技能
 

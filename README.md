@@ -68,6 +68,10 @@ Simply tell Claude Code:
 | **life-text-proofreader** | Professional Chinese text proofreader for typos and grammar |
 | **life-transcription** | Transcription cleanup and organization tools for audio |
 | **life-translation** | Professional translation tools for articles and content |
+| **life-compass** | 6-element Life Compass navigation system with Anti-Vision, Vision, goals, and constraints |
+| **life-evening-review** | Evening synthesis protocol for daily insight integration and next day planning |
+| **life-interrupt-prompts** | Daily interrupt prompts generator to break autopilot mode |
+| **life-vision-protocol** | Guided protocol for Anti-Vision and Vision discovery |
 
 ## Update Skills
 
