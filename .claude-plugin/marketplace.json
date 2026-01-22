@@ -1,0 +1,35 @@
+{
+  "name": "life-good-skill",
+  "owner": {
+    "name": "<Owner Name>",
+    "email": "owner@example.com"
+  },
+  "metadata": {
+    "description": "Skills for improving daily life efficiency",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "life-skills",
+      "description": "Life improvement skills for daily efficiency",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/life-dotfiles-manager",
+        "./skills/life-excel-diff",
+        "./skills/life-intention-committee",
+        "./skills/life-markdown-normalizer",
+        "./skills/life-mermaid-master",
+        "./skills/life-meeting-summary",
+        "./skills/life-okr-generator",
+        "./skills/life-pdf-to-ppt",
+        "./skills/life-problem-solver",
+        "./skills/life-self-assessment",
+        "./skills/life-subtitle-processor",
+        "./skills/life-text-proofreader",
+        "./skills/life-transcription",
+        "./skills/life-translation"
+      ]
+    }
+  ]
+}

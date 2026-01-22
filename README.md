@@ -1,0 +1,239 @@
+# LifeGoodSkill
+
+English | [中文](./README.zh.md)
+
+Skills for improving daily life efficiency with Claude Code.
+
+## Prerequisites
+
+- Node.js environment installed
+- Ability to run `npx bun` commands
+
+## Installation
+
+### Quick Install (Recommended)
+
+```bash
+npx skills add <owner>/LifeGoodSkill
+```
+
+### Register as Plugin Marketplace
+
+Run the following command in Claude Code:
+
+```bash
+/plugin marketplace add <owner>/LifeGoodSkill
+```
+
+### Install Skills
+
+**Option 1: Via Browse UI**
+
+1. Select **Browse and install plugins**
+2. Select **LifeGoodSkill**
+3. Select the plugin(s) you want to install
+4. Select **Install now**
+
+**Option 2: Direct Install**
+
+```bash
+/plugin install life-skills@LifeGoodSkill
+```
+
+**Option 3: Ask the Agent**
+
+Simply tell Claude Code:
+
+> Please install Skills from github.com/<owner>/LifeGoodSkill
+
+### Available Plugins
+
+| Plugin | Description | Skills |
+|--------|-------------|--------|
+| **life-skills** | Life improvement skills | [dotfiles-manager](#life-dotfiles-manager), [excel-diff](#life-excel-diff), [intention-committee](#life-intention-committee), [markdown-normalizer](#life-markdown-normalizer), [mermaid-master](#life-mermaid-master), [meeting-summary](#life-meeting-summary), [okr-generator](#life-okr-generator), [pdf-to-ppt](#life-pdf-to-ppt), [problem-solver](#life-problem-solver), [self-assessment](#life-self-assessment), [subtitle-processor](#life-subtitle-processor), [text-proofreader](#life-text-proofreader), [transcription](#life-transcription), [translation](#life-translation) |
+
+## Update Skills
+
+To update skills to the latest version:
+
+1. Run `/plugin` in Claude Code
+2. Switch to **Marketplaces** tab (use arrow keys or Tab)
+3. Select **LifeGoodSkill**
+4. Choose **Update marketplace**
+
+You can also **Enable auto-update** to get the latest versions automatically.
+
+## Available Skills
+
+### life-dotfiles-manager
+
+Deploy and sync your development environment with one command. Includes tool installation, version management, and mirror source configuration.
+
+```bash
+/life-dotfiles-manager deploy
+/life-dotfiles-manager sync
+/life-dotfiles-manager status
+```
+
+### life-excel-diff
+
+Batch analyze multiple Excel files with consistent structure, extract differences and anomalies, and generate summary reports with AI-powered insights.
+
+```bash
+/life-excel-diff ./reports/
+```
+
+### life-intention-committee
+
+Intention discovery assistant using Six Thinking Hats framework. Analyzes user goals from multiple perspectives.
+
+```bash
+/life-intention-committee
+```
+
+### life-markdown-normalizer
+
+Standardize markdown notes with unified timestamp naming, YAML frontmatter, and intelligent tag generation.
+
+```bash
+/life-markdown-normalizer ./notes/
+```
+
+### life-mermaid-master
+
+Creates professional Mermaid flowcharts using structured thinking and clear visual design.
+
+```bash
+/life-mermaid-master
+```
+
+### life-meeting-summary
+
+Convert raw meeting notes into professional meeting minutes.
+
+```bash
+/life-meeting-summary
+```
+
+### life-okr-generator
+
+Generate SMART-compliant OKR documents from job descriptions and planning cycles.
+
+```bash
+/life-okr-generator
+```
+
+### life-pdf-to-ppt
+
+Convert PDF pages to editable PowerPoint presentations using AI-powered vectorization.
+
+```bash
+/life-pdf-to-ppt ./document.pdf
+```
+
+### life-problem-solver
+
+Professional problem-solving consultant using four-tier framework (Dispatch → Domain → Application → Tools).
+
+```bash
+/life-problem-solver
+```
+
+### life-self-assessment
+
+Self-assessment correction tool that provides objective feedback on your self-evaluations.
+
+```bash
+/life-self-assessment
+```
+
+### life-subtitle-processor
+
+Convert video subtitles to structured knowledge slices with format conversion and semantic segmentation.
+
+```bash
+/life-subtitle-processor ./video.srt
+```
+
+### life-text-proofreader
+
+Professional Chinese text proofreader that identifies and corrects typos and grammar errors.
+
+```bash
+/life-text-proofreader
+```
+
+### life-transcription
+
+Transcription cleanup and organization tools for audio content.
+
+```bash
+/life-transcription
+```
+
+### life-translation
+
+Professional translation tools for articles and content with multiple modes.
+
+```bash
+/life-translation
+```
+
+## Environment Configuration
+
+Some skills require API keys or custom configuration. Environment variables can be set in `.env` files:
+
+**Load Priority** (higher priority overrides lower):
+1. CLI environment variables (e.g., `API_KEY=xxx /skill-name ...`)
+2. `process.env` (system environment)
+3. `<cwd>/.life-good-skill/.env` (project-level)
+4. `~/.life-good-skill/.env` (user-level)
+
+**Setup**:
+
+```bash
+# Create user-level config directory
+mkdir -p ~/.life-good-skill
+
+# Create .env file
+cat > ~/.life-good-skill/.env << 'EOF'
+# API keys and configuration
+API_KEY=your-key-here
+EOF
+```
+
+**Project-level config** (for team sharing):
+
+```bash
+mkdir -p .life-good-skill
+# Add .life-good-skill/.env to .gitignore to avoid committing secrets
+echo ".life-good-skill/.env" >> .gitignore
+```
+
+## Customization
+
+All skills support customization via `EXTEND.md` files. Create an extension file to override default styles, add custom configurations, or define your own presets.
+
+**Extension paths** (checked in priority order):
+1. `.life-good-skill/<skill-name>/EXTEND.md` - Project-level (for team/project-specific settings)
+2. `~/.life-good-skill/<skill-name>/EXTEND.md` - User-level (for personal preferences)
+
+**Example**: To customize a skill:
+
+```bash
+mkdir -p .life-good-skill/<skill-name>
+```
+
+Then create `.life-good-skill/<skill-name>/EXTEND.md`:
+
+```markdown
+## Custom Configuration
+
+Your custom settings here...
+```
+
+The extension content will be loaded before skill execution and override defaults.
+
+## License
+
+MIT
