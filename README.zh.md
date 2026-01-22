@@ -72,7 +72,6 @@ npx skills add <owner>/LifeGoodSkill
 | **life-excel-diff** | 批量分析 Excel 文件并生成 AI 驱动的摘要报告 |
 | **life-interview-guide** | 面试准备分析器，生成优先级排序的问题列表 |
 | **life-markdown-normalizer** | 使用统一命名和标签标准化 Markdown 笔记 |
-| **life-mermaid-master** | 使用结构化思维创建专业 Mermaid 流程图 |
 | **life-meeting-summary** | 将混乱的会议记录转换为专业的会议纪要 |
 | **life-okr-generator** | 根据职位描述生成符合 SMART 原则的 OKR 文档 |
 | **life-pdf-to-ppt** | 将 PDF 页面转换为可编辑的 PowerPoint 演示文稿 |

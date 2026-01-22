@@ -56,6 +56,22 @@ cd ~/dotfiles
 - Environment consistency
 - Tool version management
 
+## Script Directory
+
+**Important**: All scripts are located in the `scripts/` subdirectory of this skill.
+
+**Agent Execution Instructions**:
+1. Determine this SKILL.md file's directory path as `SKILL_DIR`
+2. Script path = `${SKILL_DIR}/scripts/<script-name>.sh`
+3. Replace all `${SKILL_DIR}` in this document with the actual path
+
+**Script Reference**:
+| Script | Purpose |
+|--------|---------|
+| `scripts/deploy.sh` | Deploy development environment |
+| `scripts/sync.sh` | Sync configurations from repository |
+| `scripts/status.sh` | Check environment status |
+
 ## Extension Support
 
 Custom styles and configurations via EXTEND.md.

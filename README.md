@@ -56,7 +56,6 @@ Simply tell Claude Code:
 | **life-excel-diff** | Batch analyze Excel files and generate AI-powered summary reports |
 | **life-interview-guide** | Interview preparation analyzer with priority-ranked questions |
 | **life-markdown-normalizer** | Standardize markdown notes with unified naming and tags |
-| **life-mermaid-master** | Create professional Mermaid flowcharts with structured thinking |
 | **life-meeting-summary** | Convert raw meeting notes into professional minutes |
 | **life-okr-generator** | Generate SMART-compliant OKR documents from job descriptions |
 | **life-pdf-to-ppt** | Convert PDF pages to editable PowerPoint presentations |
