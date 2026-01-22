@@ -2,6 +2,24 @@
 
 [English](./CHANGELOG.md) | 中文
 
+## 1.2.0 - 2026-01-22
+
+### 新增
+
+- **life-daily-starter**: 晨间仪式助手，包含习惯打卡和日记生成
+- **life-file-organizer**: 自动按类型和日期整理文件，检测重复文件
+- **life-knowledge-sync**: 跨平台笔记同步，生成知识图谱
+
+### 更改
+
+- 所有新脚本使用 Bun/JS 而非 Python，以获得更好的 CLI 集成
+- 按照 CLAUDE.md 规范为所有技能添加了 Script Directory 章节
+
+### 技术
+
+- 版本升级至 v1.2.0
+- 新增 3 个技能覆盖三个核心方向
+
 ## 1.1.0 - 2026-01-22
 
 ### 新增

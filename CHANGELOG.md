@@ -2,6 +2,24 @@
 
 English | [中文](./CHANGELOG.zh.md)
 
+## 1.2.0 - 2026-01-22
+
+### Added
+
+- **life-daily-starter**: Morning ritual assistant with habit tracking and daily journal generation
+- **life-file-organizer**: Automatic file organization by type, date, and duplicate detection
+- **life-knowledge-sync**: Cross-platform note sync with knowledge graph generation
+
+### Changed
+
+- All new scripts use Bun/JS instead of Python for better CLI integration
+- Added Script Directory section to all skills per CLAUDE.md guidelines
+
+### Technical
+
+- Version bump to v1.2.0
+- 3 new skills added covering the three core directions
+
 ## 1.1.0 - 2026-01-22
 
 ### Added

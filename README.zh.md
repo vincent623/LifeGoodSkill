@@ -67,10 +67,13 @@ npx skills add <owner>/LifeGoodSkill
 | 插件 | 描述 |
 |------|------|
 | **generating-mermaid-diagrams** | 将文本转换为专业 Mermaid 图表的命令行工具 |
+| **life-daily-starter** | 晨间仪式助手，包含习惯打卡和日记生成 |
 | **life-decision-analysis** | 使用六顶思考帽的多角度决策分析器 |
 | **life-dotfiles-manager** | 一键部署和同步开发环境 |
 | **life-excel-diff** | 批量分析 Excel 文件并生成 AI 驱动的摘要报告 |
+| **life-file-organizer** | 自动按类型和日期整理文件，检测重复文件 |
 | **life-interview-guide** | 面试准备分析器，生成优先级排序的问题列表 |
+| **life-knowledge-sync** | 跨 Obsidian、Logseq 同步聚合笔记，生成知识图谱 |
 | **life-markdown-normalizer** | 使用统一命名和标签标准化 Markdown 笔记 |
 | **life-meeting-summary** | 将混乱的会议记录转换为专业的会议纪要 |
 | **life-okr-generator** | 根据职位描述生成符合 SMART 原则的 OKR 文档 |

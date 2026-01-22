@@ -51,10 +51,13 @@ Simply tell Claude Code:
 | Plugin | Description |
 |--------|-------------|
 | **generating-mermaid-diagrams** | Transform text into professional Mermaid diagrams with CLI tool |
+| **life-daily-starter** | Morning ritual assistant with habit tracking and daily journal generation |
 | **life-decision-analysis** | Multi-perspective decision analyzer using Six Thinking Hats |
 | **life-dotfiles-manager** | Deploy and sync development environment with one command |
 | **life-excel-diff** | Batch analyze Excel files and generate AI-powered summary reports |
+| **life-file-organizer** | Automatically organize files by type, date, and detect duplicates |
 | **life-interview-guide** | Interview preparation analyzer with priority-ranked questions |
+| **life-knowledge-sync** | Sync and aggregate notes across Obsidian, Logseq, with knowledge graphs |
 | **life-markdown-normalizer** | Standardize markdown notes with unified naming and tags |
 | **life-meeting-summary** | Convert raw meeting notes into professional minutes |
 | **life-okr-generator** | Generate SMART-compliant OKR documents from job descriptions |

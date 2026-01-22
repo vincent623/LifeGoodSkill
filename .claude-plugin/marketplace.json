@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Skills for improving daily life efficiency",
-    "version": "1.1.0"
+    "version": "1.2.0"
   },
   "plugins": [
     {
@@ -16,16 +16,19 @@
       "strict": false,
       "skills": [
         "./skills/generating-mermaid-diagrams",
+        "./skills/life-daily-starter",
         "./skills/life-decision-analysis",
         "./skills/life-dotfiles-manager",
         "./skills/life-excel-diff",
+        "./skills/life-file-organizer",
         "./skills/life-interview-guide",
+        "./skills/life-knowledge-sync",
         "./skills/life-markdown-normalizer",
         "./skills/life-meeting-summary",
         "./skills/life-okr-generator",
         "./skills/life-pdf-to-ppt",
-        "./skills/life-subtitle-processor",
         "./skills/life-self-awareness",
+        "./skills/life-subtitle-processor",
         "./skills/life-task-breakdown",
         "./skills/life-text-proofreader",
         "./skills/life-transcription",
