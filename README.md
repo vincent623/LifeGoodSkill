@@ -50,7 +50,7 @@ Simply tell Claude Code:
 
 | Plugin | Description | Skills |
 |--------|-------------|--------|
-| **life-skills** | Life improvement skills | [decision-analysis](#life-decision-analysis), [dotfiles-manager](#life-dotfiles-manager), [excel-diff](#life-excel-diff), [generating-mermaid-diagrams](#life-generating-mermaid-diagrams), [interview-guide](#life-interview-guide), [markdown-normalizer](#life-markdown-normalizer), [mermaid-master](#life-mermaid-master), [meeting-summary](#life-meeting-summary), [okr-generator](#life-okr-generator), [pdf-to-ppt](#life-pdf-to-ppt), [self-awareness](#life-self-awareness), [subtitle-processor](#life-subtitle-processor), [task-breakdown](#life-task-breakdown), [text-proofreader](#life-text-proofreader), [transcription](#life-transcription), [translation](#life-translation) |
+| **life-skills** | Life improvement skills | [generating-mermaid-diagrams](#generating-mermaid-diagrams)<br>[life-decision-analysis](#life-decision-analysis)<br>[life-dotfiles-manager](#life-dotfiles-manager)<br>[life-excel-diff](#life-excel-diff)<br>[life-interview-guide](#life-interview-guide)<br>[life-markdown-normalizer](#life-markdown-normalizer)<br>[life-mermaid-master](#life-mermaid-master)<br>[life-meeting-summary](#life-meeting-summary)<br>[life-okr-generator](#life-okr-generator)<br>[life-pdf-to-ppt](#life-pdf-to-ppt)<br>[life-self-awareness](#life-self-awareness)<br>[life-subtitle-processor](#life-subtitle-processor)<br>[life-task-breakdown](#life-task-breakdown)<br>[life-text-proofreader](#life-text-proofreader)<br>[life-transcription](#life-transcription)<br>[life-translation](#life-translation) |
 
 ## Update Skills
 

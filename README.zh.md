@@ -66,7 +66,7 @@ npx skills add <owner>/LifeGoodSkill
 
 | 插件 | 描述 | 技能 |
 |------|------|------|
-| **life-skills** | 生活提升技能 | [决策分析](#life-decision-analysis)、[Dotfiles管理](#life-dotfiles-manager)、[Excel差异分析](#life-excel-diff)、[Mermaid图表生成](#life-generating-mermaid-diagrams)、[面试指南](#life-interview-guide)、[Markdown整理](#life-markdown-normalizer)、[Mermaid大师](#life-mermaid-master)、[会议纪要](#life-meeting-summary)、[OKR生成器](#life-okr-generator)、[PDF转PPT](#life-pdf-to-ppt)、[自我认知](#life-self-awareness)、[字幕处理器](#life-subtitle-processor)、[任务分解](#life-task-breakdown)、[文字校对](#life-text-proofreader)、[转录助手](#life-transcription)、[翻译助手](#life-translation) |
+| **life-skills** | 生活提升技能 | [generating-mermaid-diagrams](#generating-mermaid-diagrams)<br>[life-decision-analysis](#life-decision-analysis)<br>[life-dotfiles-manager](#life-dotfiles-manager)<br>[life-excel-diff](#life-excel-diff)<br>[life-interview-guide](#life-interview-guide)<br>[life-markdown-normalizer](#life-markdown-normalizer)<br>[life-mermaid-master](#life-mermaid-master)<br>[life-meeting-summary](#life-meeting-summary)<br>[life-okr-generator](#life-okr-generator)<br>[life-pdf-to-ppt](#life-pdf-to-ppt)<br>[life-self-awareness](#life-self-awareness)<br>[life-subtitle-processor](#life-subtitle-processor)<br>[life-task-breakdown](#life-task-breakdown)<br>[life-text-proofreader](#life-text-proofreader)<br>[life-transcription](#life-transcription)<br>[life-translation](#life-translation) |
 
 ## 更新技能
 
