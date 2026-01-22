@@ -48,9 +48,24 @@ Simply tell Claude Code:
 
 ### Available Plugins
 
-| Plugin | Description | Skills |
-|--------|-------------|--------|
-| **life-skills** | Life improvement skills | [generating-mermaid-diagrams](#generating-mermaid-diagrams)<br>[life-decision-analysis](#life-decision-analysis)<br>[life-dotfiles-manager](#life-dotfiles-manager)<br>[life-excel-diff](#life-excel-diff)<br>[life-interview-guide](#life-interview-guide)<br>[life-markdown-normalizer](#life-markdown-normalizer)<br>[life-mermaid-master](#life-mermaid-master)<br>[life-meeting-summary](#life-meeting-summary)<br>[life-okr-generator](#life-okr-generator)<br>[life-pdf-to-ppt](#life-pdf-to-ppt)<br>[life-self-awareness](#life-self-awareness)<br>[life-subtitle-processor](#life-subtitle-processor)<br>[life-task-breakdown](#life-task-breakdown)<br>[life-text-proofreader](#life-text-proofreader)<br>[life-transcription](#life-transcription)<br>[life-translation](#life-translation) |
+| Plugin | Description |
+|--------|-------------|
+| **generating-mermaid-diagrams** | Transform text into professional Mermaid diagrams with CLI tool |
+| **life-decision-analysis** | Multi-perspective decision analyzer using Six Thinking Hats |
+| **life-dotfiles-manager** | Deploy and sync development environment with one command |
+| **life-excel-diff** | Batch analyze Excel files and generate AI-powered summary reports |
+| **life-interview-guide** | Interview preparation analyzer with priority-ranked questions |
+| **life-markdown-normalizer** | Standardize markdown notes with unified naming and tags |
+| **life-mermaid-master** | Create professional Mermaid flowcharts with structured thinking |
+| **life-meeting-summary** | Convert raw meeting notes into professional minutes |
+| **life-okr-generator** | Generate SMART-compliant OKR documents from job descriptions |
+| **life-pdf-to-ppt** | Convert PDF pages to editable PowerPoint presentations |
+| **life-self-awareness** | Cognitive bias analyzer for self-evaluation documents |
+| **life-subtitle-processor** | Convert video subtitles to structured knowledge slices |
+| **life-task-breakdown** | Problem decomposition tool with Gantt chart visualization |
+| **life-text-proofreader** | Professional Chinese text proofreader for typos and grammar |
+| **life-transcription** | Transcription cleanup and organization tools for audio |
+| **life-translation** | Professional translation tools for articles and content |
 
 ## Update Skills
 

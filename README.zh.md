@@ -64,9 +64,24 @@ npx skills add <owner>/LifeGoodSkill
 
 ### 可用插件
 
-| 插件 | 描述 | 技能 |
-|------|------|------|
-| **life-skills** | 生活提升技能 | [generating-mermaid-diagrams](#generating-mermaid-diagrams)<br>[life-decision-analysis](#life-decision-analysis)<br>[life-dotfiles-manager](#life-dotfiles-manager)<br>[life-excel-diff](#life-excel-diff)<br>[life-interview-guide](#life-interview-guide)<br>[life-markdown-normalizer](#life-markdown-normalizer)<br>[life-mermaid-master](#life-mermaid-master)<br>[life-meeting-summary](#life-meeting-summary)<br>[life-okr-generator](#life-okr-generator)<br>[life-pdf-to-ppt](#life-pdf-to-ppt)<br>[life-self-awareness](#life-self-awareness)<br>[life-subtitle-processor](#life-subtitle-processor)<br>[life-task-breakdown](#life-task-breakdown)<br>[life-text-proofreader](#life-text-proofreader)<br>[life-transcription](#life-transcription)<br>[life-translation](#life-translation) |
+| 插件 | 描述 |
+|------|------|
+| **generating-mermaid-diagrams** | 将文本转换为专业 Mermaid 图表的命令行工具 |
+| **life-decision-analysis** | 使用六顶思考帽的多角度决策分析器 |
+| **life-dotfiles-manager** | 一键部署和同步开发环境 |
+| **life-excel-diff** | 批量分析 Excel 文件并生成 AI 驱动的摘要报告 |
+| **life-interview-guide** | 面试准备分析器，生成优先级排序的问题列表 |
+| **life-markdown-normalizer** | 使用统一命名和标签标准化 Markdown 笔记 |
+| **life-mermaid-master** | 使用结构化思维创建专业 Mermaid 流程图 |
+| **life-meeting-summary** | 将混乱的会议记录转换为专业的会议纪要 |
+| **life-okr-generator** | 根据职位描述生成符合 SMART 原则的 OKR 文档 |
+| **life-pdf-to-ppt** | 将 PDF 页面转换为可编辑的 PowerPoint 演示文稿 |
+| **life-self-awareness** | 自我评估文档的认知偏见分析器 |
+| **life-subtitle-processor** | 将视频字幕转换为结构化的知识切片 |
+| **life-task-breakdown** | 带有甘特图可视化的任务分解工具 |
+| **life-text-proofreader** | 专业中文文字校对，识别并纠正错别字和语法错误 |
+| **life-transcription** | 音频内容的转录整理工具 |
+| **life-translation** | 专业文章翻译工具，支持多种模式 |
 
 ## 更新技能
 
