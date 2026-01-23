@@ -1,19 +1,12 @@
 #!/usr/bin/env node
 import { spawn } from "child_process";
-import { readdirSync, existsSync, mkdirSync, writeFileSync, readFileSync } from "fs";
+import { existsSync, mkdirSync, writeFileSync, readFileSync, statSync } from "fs";
+import { join, dirname } from "path";
 import { fileURLToPath } from "url";
-import { dirname, join } from "path";
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const SKILL_DIR = __dirname;
-const PROJECT_ROOT = dirname(dirname(SKILL_DIR));
-const DEFAULT_OUTPUT_DIR = join(PROJECT_ROOT, "downloads");
-const DOWNLOAD_LOG = join(PROJECT_ROOT, ".downloads.json");
-
-function getTimestamp() {
-  const now = new Date();
-  return `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}${String(now.getSeconds()).padStart(2, '0')}`;
-}
+import { CONFIG, getTimestamp, saveDownloadLog, getDownloadLog, ensureDir, getSiliconFlowApiKey } from "./lib/config.js";
+import { searchVideos, displayVideos, downloadVideo, downloadMp3, downloadSubtitles, getVideoInfo, generateIntroMd } from "./lib/download.js";
+import { transcribeAudio, getTranscriptionResult, formatTranscriptMd, findAudioFile } from "./lib/transcribe.js";
+import { diagnoseAudioFile, chunkAudio } from "./lib/audio.js";
 
 function checkCommandExists(command) {
   return new Promise((resolve) => {
@@ -23,67 +16,47 @@ function checkCommandExists(command) {
   });
 }
 
-function checkHomebrew() {
-  return new Promise((resolve) => {
-    const proc = spawn("which", ["brew"], { stdio: "pipe" });
-    proc.on("close", (code) => resolve(code === 0));
-    proc.on("error", () => resolve(false));
-  });
-}
-
-async function installWithBrew(packageName) {
-  return new Promise((resolve, reject) => {
-    console.log(`  安装 ${packageName}...`);
-    const proc = spawn("brew", ["install", packageName], { stdio: "pipe" });
-    proc.stdout.on("data", (d) => process.stdout.write(d.toString()));
-    proc.stderr.on("data", (d) => process.stderr.write(d.toString()));
-    proc.on("close", (code) => {
-      if (code === 0) resolve(true);
-      else reject(new Error(`安装失败，退出码: ${code}`));
-    });
-  });
-}
-
 async function checkDependencies() {
-  console.log("检查依赖...\n");
+  console.log("检查依赖... / Checking dependencies...\n");
 
   const deps = [
-    { name: "yt-dlp", install: "brew install yt-dlp", brew: "yt-dlp" },
-    { name: "ffmpeg", install: "brew install ffmpeg", brew: "ffmpeg" },
+    { name: "yt-dlp", install: "brew install yt-dlp" },
+    { name: "ffmpeg", install: "brew install ffmpeg" },
   ];
 
   const missing = [];
   for (const dep of deps) {
     const exists = await checkCommandExists(dep.name);
     if (exists) {
-      console.log(`  ✓ ${dep.name} 已安装`);
+      console.log(`  ✓ ${dep.name} 已安装 / installed`);
     } else {
-      console.log(`  ✗ ${dep.name} 未安装`);
+      console.log(`  ✗ ${dep.name} 未安装 / not installed`);
       missing.push(dep);
     }
   }
 
   if (missing.length > 0) {
-    const hasBrew = await checkHomebrew();
-    if (!hasBrew) {
-      console.log("\n⚠️  未检测到 Homebrew，请先安装:");
-      console.log("  /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"");
-      return false;
-    }
-
-    console.log("\n自动安装缺失的依赖...");
+    console.log("\n请安装缺失的依赖 / Please install missing dependencies:");
     for (const dep of missing) {
-      try {
-        await installWithBrew(dep.brew);
-        console.log(`  ✓ ${dep.name} 安装成功`);
-      } catch (error) {
-        console.error(`  ✗ ${dep.name} 安装失败: ${error.message}`);
-        return false;
-      }
+      console.log(`  ${dep.install}`);
     }
+    return false;
   }
 
-  console.log("\n所有依赖已就绪!");
+  console.log("\n所有依赖已就绪! / All dependencies ready!");
+  return true;
+}
+
+function checkApiKey() {
+  const key = getSiliconFlowApiKey();
+  if (!key) {
+    console.log("\n⚠️  未设置 SILICON_FLOW_API_KEY / SILICON_FLOW_API_KEY not set");
+    console.log("如需语音转文字功能，请设置 / For transcription, set:");
+    console.log("  export SILICON_FLOW_API_KEY=\"your_api_key\"");
+    console.log("  或 / or");
+    console.log("  SILICON_FLOW_API_KEY=\"key\" bun workflow.js \"视频链接\" --transcribe-only\n");
+    return false;
+  }
   return true;
 }
 
@@ -95,9 +68,11 @@ function parseArgs() {
     download: false,
     extractAudio: false,
     subtitles: false,
+    transcribeOnly: false,
     lang: "en",
     format: "best",
-    output: DEFAULT_OUTPUT_DIR,
+    limit: 5,
+    output: CONFIG.DEFAULT_OUTPUT_DIR,
     urls: [],
     force: false,
   };
@@ -108,16 +83,20 @@ function parseArgs() {
       options.search = true;
     } else if (arg === "--download") {
       options.download = true;
+    } else if (arg === "--limit" || arg === "-n") {
+      options.limit = parseInt(args[++i]) || 5;
     } else if (arg === "--extract-audio" || arg === "-x") {
       options.extractAudio = true;
     } else if (arg === "--subtitles" || arg === "--subs") {
       options.subtitles = true;
+    } else if (arg === "--transcribe-only" || arg === "-t") {
+      options.transcribeOnly = true;
     } else if (arg === "--lang" || arg === "-l") {
       options.lang = args[++i] || "en";
     } else if (arg === "--format" || arg === "-f") {
       options.format = args[++i] || "best";
     } else if (arg === "--output" || arg === "-o") {
-      options.output = args[++i] || DEFAULT_OUTPUT_DIR;
+      options.output = args[++i] || CONFIG.DEFAULT_OUTPUT_DIR;
     } else if (arg === "--yes" || arg === "-y") {
       options.force = true;
     } else if (!arg.startsWith("--") && !arg.startsWith("http")) {
@@ -127,240 +106,12 @@ function parseArgs() {
     }
   }
 
-  options.search = options.search || (!options.download && options.urls.length === 0);
+  options.search = options.search || (options.query && options.urls.length === 0 && !options.transcribeOnly);
   if (!options.search) {
     options.download = options.download || options.extractAudio || options.subtitles;
   }
 
   return options;
-}
-
-async function searchVideos(query, limit = 10) {
-  const searchQuery = `ytsearch${limit}:${query}`;
-
-  return new Promise((resolve, reject) => {
-    const proc = spawn("yt-dlp", [
-      "--print", "%(title)s\n%(view_count)s\n%(duration)s\n%(id)s\n---",
-      "--no-download",
-      searchQuery,
-    ], { stdio: "pipe" });
-
-    let output = "";
-    proc.stdout.on("data", (d) => (output += d.toString()));
-    proc.on("error", (error) => reject(new Error(`yt-dlp 错误: ${error.message}`)));
-    proc.on("close", (code) => {
-      if (code !== 0 && code !== 1) {
-        reject(new Error(`yt-dlp 退出码: ${code}`));
-        return;
-      }
-      resolve(parseSearchOutput(output));
-    });
-  });
-}
-
-function parseSearchOutput(output) {
-  const videos = [];
-  const sections = output.split(/^---$/m);
-
-  for (const section of sections) {
-    const lines = section.trim().split("\n");
-    if (lines.length < 4) continue;
-
-    const title = lines[0]?.trim() || "";
-    const viewCount = parseInt(lines[1]) || 0;
-    const duration = lines[2]?.trim() || "";
-    const id = lines[3]?.trim() || "";
-
-    if (id && title) {
-      videos.push({
-        title,
-        viewCount,
-        duration,
-        id,
-        url: `https://youtube.com/watch/${id}`,
-      });
-    }
-  }
-
-  return videos;
-}
-
-async function getVideoInfo(url) {
-  return new Promise((resolve, reject) => {
-    const proc = spawn("yt-dlp", [
-      "--print", "%(title)s\n%(description)s\n%(uploader)s\n%(upload_date)s\n%(view_count)s\n%(duration)s\n%(tags)s",
-      "--no-download",
-      url,
-    ], { stdio: "pipe" });
-
-    let output = "";
-    proc.stdout.on("data", (d) => (output += d.toString()));
-    proc.on("error", (error) => reject(new Error(`yt-dlp 错误: ${error.message}`)));
-    proc.on("close", (code) => {
-      if (code !== 0) {
-        reject(new Error(`yt-dlp 退出码: ${code}`));
-        return;
-      }
-      const lines = output.split("\n");
-      resolve({
-        title: lines[0]?.trim() || "未知标题",
-        description: lines[1]?.trim() || "",
-        uploader: lines[2]?.trim() || "未知",
-        uploadDate: lines[3]?.trim() || "",
-        viewCount: parseInt(lines[4]) || 0,
-        duration: lines[5]?.trim() || "",
-        tags: lines[6]?.trim() || "",
-      });
-    });
-  });
-}
-
-function generateIntroMd(info, url) {
-  return `# ${info.title}
-
-## 基本信息
-
-- **链接**: ${url}
-- **作者**: ${info.uploader}
-- **上传日期**: ${info.uploadDate}
-- **观看次数**: ${info.viewCount.toLocaleString()}
-- **时长**: ${info.duration}
-
-## 标签
-
-${info.tags ? info.tags.split(',').map(t => `- ${t.trim()}`).join('\n') : '无'}
-
-## 内容简介
-
-${info.description || '暂无简介'}
-
----
-
-*由 video-searcher 自动生成*
-`;
-}
-
-async function downloadMp3(url, outputDir, title) {
-  return new Promise((resolve, reject) => {
-    const safeTitle = title.replace(/[^a-zA-Z0-9\u4e00-\u9fff]/g, '_').slice(0, 50);
-    const args = [
-      "-x", "--audio-format", "mp3",
-      "-o", join(outputDir, `${safeTitle}.%(ext)s`),
-      url,
-    ];
-    const proc = spawn("yt-dlp", args, { stdio: "pipe" });
-    proc.on("close", (code) => {
-      if (code === 0) resolve(true);
-      else reject(new Error(`MP3 下载失败，退出码: ${code}`));
-    });
-  });
-}
-
-function formatDuration(seconds) {
-  if (!seconds || isNaN(seconds)) return "N/A";
-  const h = Math.floor(seconds / 3600);
-  const m = Math.floor((seconds % 3600) / 60);
-  const s = Math.floor(seconds % 60);
-  if (h > 0) return `${h}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
-  return `${m}:${s.toString().padStart(2, "0")}`;
-}
-
-function formatViewCount(count) {
-  if (!count) return "N/A";
-  if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
-  if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
-  return count.toString();
-}
-
-function displayVideos(videos) {
-  if (videos.length === 0) {
-    console.log("未找到视频");
-    return [];
-  }
-
-  console.log(`\n找到 ${videos.length} 个视频:\n`);
-  console.log("  #   标题                                          观看      时长");
-  console.log("  ────────────────────────────────────────────────────────────────");
-
-  for (let i = 0; i < videos.length; i++) {
-    const v = videos[i];
-    const title = v.title.length > 44 ? v.title.slice(0, 44) + "..." : v.title;
-    console.log(`  ${(i + 1).toString().padStart(2)}   ${title.padEnd(44)} ${formatViewCount(v.viewCount).padStart(8)} ${formatDuration(v.duration).padStart(6)}`);
-  }
-
-  console.log("");
-  return videos;
-}
-
-function getDownloadLog() {
-  try {
-    if (existsSync(DOWNLOAD_LOG)) {
-      return JSON.parse(readFileSync(DOWNLOAD_LOG, "utf-8"));
-    }
-  } catch {}
-  return {};
-}
-
-function saveDownloadLog(log) {
-  writeFileSync(DOWNLOAD_LOG, JSON.stringify(log, null, 2));
-}
-
-function startDownload(video, options, logId) {
-  const args = [];
-
-  if (options.extractAudio) {
-    args.push("-x", "--audio-format", "mp3");
-  } else {
-    if (options.format !== "best") {
-      args.push("-f", options.format);
-    }
-  }
-
-  if (options.subtitles) {
-    args.push("--write-subs");
-    if (options.lang) args.push("--sub-langs", options.lang);
-  }
-
-  if (!existsSync(options.output)) {
-    mkdirSync(options.output, { recursive: true });
-  }
-
-  args.push("-o", join(options.output, "%(title)s.%(ext)s"));
-  args.push(video.url);
-
-  const proc = spawn("yt-dlp", args, { stdio: "pipe" });
-
-  let progress = "";
-  let lastPercent = -1;
-
-  proc.stdout.on("data", (d) => {
-    const text = d.toString();
-    progress += text;
-
-    const downloadMatch = text.match(/\[download\]\s+(\d+\.?\d*)%/);
-    if (downloadMatch) {
-      const percent = Math.floor(parseFloat(downloadMatch[1]));
-      if (percent !== lastPercent && percent % 10 === 0) {
-        process.stdout.write(`\r  下载中: ${video.title.slice(0, 30)}... ${percent}%\n`);
-        lastPercent = percent;
-      }
-    }
-  });
-
-  proc.stderr.on("data", (d) => {
-    const text = d.toString();
-    progress += text;
-  });
-
-  return new Promise((resolve, reject) => {
-    proc.on("close", (code) => {
-      if (code === 0) {
-        resolve({ success: true, video, logId });
-      } else {
-        reject(new Error(`下载失败，退出码: ${code}`));
-      }
-    });
-  });
 }
 
 async function askUserChoice(videos) {
@@ -398,10 +149,14 @@ async function createInterface({ input, output }) {
   return mod.createInterface({ input, output });
 }
 
-async function downloadVideos(videos, indices, options) {
+async function downloadVideos(videos, indices, options, skipDownload = false) {
   const timestamp = getTimestamp();
-  const sessionDir = join(DEFAULT_OUTPUT_DIR, `download_${timestamp}`);
-  mkdirSync(sessionDir, { recursive: true });
+  ensureDir(CONFIG.DEFAULT_OUTPUT_DIR);
+  console.log(`\n  输出目录: ${CONFIG.DEFAULT_OUTPUT_DIR}`);
+
+  const sessionDir = join(CONFIG.DEFAULT_OUTPUT_DIR, timestamp);
+  ensureDir(sessionDir);
+  console.log(`  时间戳目录: ${sessionDir}\n`);
 
   const log = getDownloadLog();
   const results = [];
@@ -417,34 +172,129 @@ async function downloadVideos(videos, indices, options) {
     };
     saveDownloadLog(log);
 
-    const videoDir = join(sessionDir, `${idx + 1}_${video.id}`);
-    mkdirSync(videoDir, { recursive: true });
+    const safeTitle = video.title.replace(/[^a-zA-Z0-9\u4e00-\u9fff]/g, '_').slice(0, 50);
+    const videoDir = join(sessionDir, `${safeTitle}_${video.id}`);
+    ensureDir(videoDir);
 
     try {
-      console.log(`\n  开始下载: ${video.title}`);
+      console.log(`\n  开始 / Start: ${video.title}`);
 
-      await startDownload(video, { ...options, output: videoDir }, logId);
-      console.log(`    视频下载完成`);
+      let mp3Path = null;
+      let existingAudio = null;
 
-      await downloadMp3(video.url, videoDir, video.title);
-      console.log(`    MP3 下载完成`);
+      if (skipDownload) {
+        const audioFile = await findAudioFile(videoDir);
+        if (audioFile) {
+          existingAudio = audioFile;
+          console.log(`    已找到音频文件 / Found audio: ${audioFile.split('/').pop()}`);
+        }
+      }
 
-      const videoInfo = await getVideoInfo(video.url);
-      const introMd = generateIntroMd(videoInfo, video.url);
-      writeFileSync(join(videoDir, "视频简介.md"), introMd);
-      console.log(`    简介.md 生成完成`);
+      if (!existingAudio) {
+        if (skipDownload) {
+          console.log(`    ⚠️  未找到音频文件，跳过下载`);
+        } else {
+          await downloadVideo(video, videoDir);
+          console.log(`    视频下载完成 / Video downloaded`);
+        }
+
+        mp3Path = await downloadMp3(video.url, videoDir, video.title);
+        console.log(`    MP3 下载完成 / MP3 downloaded`);
+      } else {
+        mp3Path = existingAudio;
+      }
+
+      if (options.subtitles && !skipDownload) {
+        try {
+          await downloadSubtitles(video.url, videoDir, options.lang);
+          console.log(`    字幕下载完成 / Subtitles downloaded (${options.lang})`);
+        } catch (err) {
+          console.log(`    ⚠️  字幕下载失败 / Subtitles failed: ${err.message}`);
+        }
+      }
+
+      if (!skipDownload) {
+        const videoInfo = await getVideoInfo(video.url);
+        const introMd = generateIntroMd(videoInfo, video.url);
+        const safeTitle = video.title.replace(/[^a-zA-Z0-9\u4e00-\u9fff]/g, '_').slice(0, 50);
+        writeFileSync(join(videoDir, `${safeTitle}-info.md`), introMd);
+        console.log(`    简介.md 生成完成 / Intro generated`);
+      }
+
+      let transcriptSource = null;
+
+      if (options.subtitles || getSiliconFlowApiKey()) {
+        console.log(`    尝试获取字幕... / Fetching subtitles...`);
+
+        let subsDownloaded = false;
+        if (options.subtitles) {
+          try {
+            await downloadSubtitles(video.url, videoDir, options.lang);
+            console.log(`    ✓ 字幕下载成功 / Subtitles downloaded (${options.lang})`);
+            subsDownloaded = true;
+          } catch (err) {
+            console.log(`    ⚠️  字幕下载失败，无字幕可用 / No subtitles available`);
+          }
+        }
+
+        if (!subsDownloaded && getSiliconFlowApiKey()) {
+          console.log(`    启用 ASR 转写 / Using ASR transcription...`);
+          const audioAnalysis = diagnoseAudioFile(mp3Path);
+          let fullTranscript = "";
+
+          if (audioAnalysis.needsChunking) {
+            console.log(`    ⚠️  ${audioAnalysis.issues.map(i => i.message).join("; ")}`);
+            const chunks = await chunkAudio(mp3Path, videoDir);
+            console.log(`    已分割为 ${chunks.length} 个片段 / Split into ${chunks.length} chunks`);
+
+            for (let i = 0; i < chunks.length; i++) {
+              console.log(`    转写第 ${i + 1}/${chunks.length} 个片段...`);
+              const result = await transcribeAudio(chunks[i]);
+              const { success, text } = getTranscriptionResult(result);
+              if (success) fullTranscript += text + "\n";
+            }
+          } else {
+            console.log(`    正在转写语音... / Transcribing...`);
+            const result = await transcribeAudio(mp3Path);
+            const { success, text } = getTranscriptionResult(result);
+            if (success) fullTranscript = text;
+          }
+
+          if (fullTranscript) {
+            const title = video.title || "Video Transcript";
+            const videoUrl = video.url;
+            let mdContent = await formatTranscriptMd(fullTranscript.trim(), title, videoUrl, {
+              duration: video.duration,
+              viewCount: video.viewCount
+            });
+
+            const safeTitle = title.replace(/[^a-zA-Z0-9\u4e00-\u9fff]/g, '_').slice(0, 50);
+            writeFileSync(join(videoDir, `${safeTitle}-srt.md`), mdContent);
+            console.log(`    语音文字稿.md 生成完成 / Transcript generated`);
+            transcriptSource = "ASR";
+          }
+        } else if (subsDownloaded) {
+          const subsPath = join(videoDir, `${options.lang}.vtt`);
+          if (existsSync(subsPath)) {
+            console.log(`    字幕文件已保存 / Subtitles saved: ${options.lang}.vtt`);
+            transcriptSource = "subs";
+          }
+        }
+      } else if (!getSiliconFlowApiKey()) {
+        console.log(`    ⚠️  未设置 API Key，跳过转写 / No API key, skipping transcription`);
+      }
 
       log[logId].status = "completed";
       log[logId].endTime = new Date().toISOString();
       saveDownloadLog(log);
       results.push({ success: true, video, dir: videoDir });
-      console.log(`  ✓ 完成: ${video.title}`);
+      console.log(`  ✓ 完成 / Done: ${video.title}`);
     } catch (error) {
       log[logId].status = "failed";
       log[logId].error = error.message;
       saveDownloadLog(log);
       results.push({ success: false, video, error: error.message });
-      console.log(`  ✗ 失败: ${video.title} - ${error.message}`);
+      console.log(`  ✗ 失败 / Failed: ${video.title} - ${error.message}`);
     }
   }
 
@@ -483,25 +333,19 @@ function generateDownloadListMd(results, sessionDir, timestamp) {
     md += `| ${i + 1} | ${title} | ${status} | ${dirName} |\n`;
   }
 
+  const safeTitle = results[0]?.video.title.replace(/[^a-zA-Z0-9\u4e00-\u9fff]/g, '_').slice(0, 40) || "video";
   md += `
 ## 目录结构
 
 \`\`\`
 downloads/
-└── download_${timestamp}/
-`;
-
-  for (let i = 0; i < results.length; i++) {
-    const r = results[i];
-    if (r.success) {
-      md += `    ├── ${i + 1}_${r.video.id}/\n`;
-      md += `    │   ├── 视频简介.md\n`;
-      md += `    │   ├── ${r.video.title}.mp4\n`;
-      md += `    │   └── ${r.video.title}.mp3\n`;
-    }
-  }
-
-  md += `    └── 下载清单.md\n\`\`\`
+└── ${timestamp}/
+    └── ${safeTitle}_${results[0]?.video.id || 'id'}/
+        ├── ${safeTitle}-info.md
+        ├── ${safeTitle}-srt.md
+        ├── ${safeTitle}.webm
+        └── ${safeTitle}.mp3
+\`\`\`
 
 ---
 *由 video-searcher 自动生成*
@@ -530,7 +374,7 @@ async function main() {
   const options = parseArgs();
 
   console.log("=".repeat(60));
-  console.log("Video Searcher - 视频搜索与下载工作流");
+  console.log("Video Searcher - 视频搜索与下载工作流 / Video Search & Download");
   console.log("=".repeat(60));
 
   const depsOk = await checkDependencies();
@@ -538,25 +382,84 @@ async function main() {
     process.exit(1);
   }
 
-  if (!options.query && options.urls.length === 0) {
+  checkApiKey();
+
+  if (!options.query && options.urls.length === 0 && !options.transcribeOnly) {
     console.log("\nUsage: node workflow.js <query> [options]");
     console.log("       node workflow.js <url> [options]");
+    console.log("       node workflow.js <video_dir> --transcribe-only");
     console.log("");
     console.log("Options:");
-    console.log("  --search          搜索视频");
-    console.log("  --download        下载视频");
-    console.log("  --extract-audio   提取音频 (MP3)");
-    console.log("  --subtitles       下载字幕");
-    console.log("  --lang LANG       字幕语言 (默认: en)");
-    console.log("  --format FORMAT   视频格式");
-    console.log("  --output DIR      输出目录");
-    console.log("  --yes, -y         跳过确认，直接下载第 1 个");
+    console.log("  --search, -s        搜索视频 / Search videos");
+    console.log("  --download, -d      下载视频 / Download video");
+    console.log("  --limit N, -n       搜索结果数量 (默认: 5)");
+    console.log("  --extract-audio, -x 提取音频 (MP3)");
+    console.log("  --subtitles, --subs 下载字幕 / Download subtitles");
+    console.log("  --transcribe-only, -t  只转写已有音频 / Transcribe existing audio only");
+    console.log("  --lang LANG         字幕语言 (默认: en)");
+    console.log("  --format FORMAT     视频格式");
+    console.log("  --output DIR        输出目录");
+    console.log("  --yes, -y           跳过确认，直接下载第 1 个");
     console.log("");
     console.log("Examples:");
     console.log("  node workflow.js Python 教程 --search");
     console.log("  node workflow.js Python 教程 --search --download");
     console.log("  node workflow.js Python 教程 --extract-audio --yes");
+    console.log("  node workflow.js downloads/1_xxx --transcribe-only");
     process.exit(1);
+  }
+
+  if (options.transcribeOnly) {
+    const { existsSync } = await import("fs");
+    if (!existsSync(options.query)) {
+      console.log(`\n⚠️  目录不存在 / Directory not found: ${options.query}`);
+      process.exit(1);
+    }
+    console.log(`\n  只转写模式 / Transcribe only mode`);
+    console.log(`  目录 / Directory: ${options.query}`);
+
+    const audioFile = await findAudioFile(options.query);
+    if (!audioFile) {
+      console.log(`  ⚠️  未找到音频文件 / No audio file found`);
+      process.exit(1);
+    }
+
+    console.log(`  找到音频 / Found audio: ${audioFile.split('/').pop()}`);
+
+    if (getSiliconFlowApiKey()) {
+      const { readFileSync, readdirSync: rd } = await import("fs");
+      const title = options.query.split('/').pop();
+      console.log(`  正在转写... / Transcribing...`);
+      const result = await transcribeAudio(audioFile);
+      const { success, text } = getTranscriptionResult(result);
+
+      if (success) {
+        let videoTitle = title;
+        try {
+          const entries = rd(options.query);
+          const infoFile = entries.find(e => e.includes('视频简介') || e.includes('info') || e.includes('intro'));
+          if (infoFile) {
+            const content = readFileSync(join(options.query, infoFile), "utf-8");
+            const match = content.match(/^# (.+)$/m);
+            if (match) videoTitle = match[1];
+          }
+        } catch {}
+
+        const mdContent = await formatTranscriptMd(text.trim(), videoTitle, "");
+        const safeTitle = videoTitle.replace(/[^a-zA-Z0-9\u4e00-\u9fff]/g, '_').slice(0, 50);
+        writeFileSync(join(options.query, `${safeTitle}-srt.md`), mdContent);
+        console.log(`  ✓ ${safeTitle}-srt.md 已生成`);
+      } else {
+        console.log(`  ✗ 转写失败 / Transcription failed`);
+      }
+    } else {
+      console.log(`  ⚠️  未设置 API Key`);
+    }
+
+    console.log("=".repeat(60));
+    console.log("完成! / Done!");
+    console.log("=".repeat(60));
+    return;
   }
 
   let videos = [];
@@ -569,24 +472,24 @@ async function main() {
     }));
   } else if (options.search) {
     try {
-      videos = await searchVideos(options.query, 5);
+      videos = await searchVideos(options.query, options.limit);
       displayVideos(videos);
 
       if (options.download) {
-        if (options.force) {
-          console.log("  (自动模式: 下载第 1 个)");
+        if (options.force || options.limit === 1) {
+          console.log(`  (自动模式: 下载第 1 个 / Auto mode: download #1)`);
           await downloadVideos(videos, [0], options);
         } else {
           const indices = await askUserChoice(videos);
           if (indices.length > 0) {
             await downloadVideos(videos, indices, options);
           } else {
-            console.log("  已取消下载");
+            console.log("  已取消下载 / Cancelled");
           }
         }
       }
     } catch (error) {
-      console.error(`搜索失败: ${error.message}`);
+      console.error(`搜索失败 / Search failed: ${error.message}`);
       process.exit(1);
     }
   } else if (options.download && videos.length > 0) {
@@ -602,7 +505,7 @@ async function main() {
   }
 
   console.log("=".repeat(60));
-  console.log("完成!");
+  console.log("完成! / Done!");
   console.log("=".repeat(60));
 }
 
