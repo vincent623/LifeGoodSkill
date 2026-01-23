@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Skills for improving daily life efficiency",
-    "version": "1.4.0"
+    "version": "1.5.0"
   },
   "plugins": [
     {
@@ -19,12 +19,15 @@
         "./skills/life-daily-starter",
         "./skills/life-decision-analysis",
         "./skills/life-dotfiles-manager",
+        "./skills/life-evening-review",
         "./skills/life-excel-diff",
         "./skills/life-file-organizer",
+        "./skills/life-interrupt-prompts",
         "./skills/life-interview-guide",
         "./skills/life-knowledge-sync",
         "./skills/life-markdown-normalizer",
         "./skills/life-meeting-summary",
+        "./skills/life-network-troubleshooter",
         "./skills/life-okr-generator",
         "./skills/life-pdf-to-ppt",
         "./skills/life-self-awareness",
@@ -33,12 +36,11 @@
         "./skills/life-text-proofreader",
         "./skills/life-transcription",
         "./skills/life-translation",
-        "./skills/life-compass",
-        "./skills/life-evening-review",
-        "./skills/life-interrupt-prompts",
         "./skills/life-vision-protocol",
+        "./skills/life-compass",
         "./skills/chat-log-analyzer",
-        "./skills/chat-to-markdown"
+        "./skills/chat-to-markdown",
+        "./skills/skill-searcher"
       ]
     }
   ]
