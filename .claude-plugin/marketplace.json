@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Skills for improving daily life efficiency",
-    "version": "1.5.0"
+    "version": "1.6.0"
   },
   "plugins": [
     {
@@ -40,7 +40,8 @@
         "./skills/life-compass",
         "./skills/chat-log-analyzer",
         "./skills/chat-to-markdown",
-        "./skills/skill-searcher"
+        "./skills/skill-searcher",
+        "./skills/life-mole-cleaner"
       ]
     }
   ]

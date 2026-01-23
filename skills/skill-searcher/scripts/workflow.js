@@ -266,9 +266,7 @@ async function searchSkills(query) {
   const cached = loadCache(query);
   if (cached) return cached;
 
-  const proc = spawn(["42plugin", "search", query, "--type", "skill"], {
-    stdout: "pipe",
-  });
+  const proc = spawn('42plugin', ['search', query, '--type', 'skill', '--limit', '5'], { cwd: process.cwd(), stdio: 'pipe' });
 
   const chunks = [];
   for await (const chunk of proc.stdout) {
@@ -288,7 +286,7 @@ function parseSearchOutput(output) {
   let currentItem = null;
 
   for (const line of lines) {
-    const skillMatch = line.match(/^⚡\s+(.+?)\s+\[Skill\]/);
+    const skillMatch = line.match(/^⚡\s+(.+?)\s+\[Skill\]/i);
     const versionMatch = line.match(/v(\S+)\s+·\s+(\d+)\s+下载/);
     const installMatch = line.match(/安装:\s*42plugin install\s+(.+)/);
     const headerMatch = line.match(/找到\s*(\d+)\s*个/);
@@ -632,10 +630,12 @@ async function main() {
   const options = [];
   let reportJson = "";
   let autoExplore = false;
-
+  let jsonOutput = false;
   for (const arg of allArgs) {
     if (arg === "--auto" || arg === "-a") {
       autoExplore = true;
+    } else if (arg === "--json") {
+      jsonOutput = true;
     } else if (arg.startsWith("--")) {
       options.push(arg);
     } else {
@@ -725,6 +725,18 @@ async function main() {
   console.log("\n" + "=".repeat(60));
   console.log("完成!");
   console.log("=".repeat(60));
+
+  if (jsonOutput) {
+    console.log(JSON.stringify({
+      project: report,
+      analysis,
+      matches,
+      summary: {
+        totalMatches: matches.length,
+        highMatches: matches.filter(m => m.matchLevel === '高').length
+      }
+    }, null, 2));
+  }
 }
 
 main();
