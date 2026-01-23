@@ -1,0 +1,13 @@
+{
+  "name": "skill-searcher",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "MCP server for skill-searcher - Universal resource discovery for Claude Code projects",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  }
+}

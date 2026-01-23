@@ -1,4 +1,4 @@
-# 更新日志
+\n## 未发布\n\n### 更改\n\n- **searching-youtube-videos**: 将 video-searcher 重命名为符合 skill-builder 规范并优化\n  - 修复 workflow.js readline 导入 bug\n  - 增强文档和 CLI 一致性\n  - 生产就绪的 YouTube/B站 搜索+下载+ASR 工作流\n\n### 技术\n\n- 在 marketplace.json 中添加 `./skills/searching-youtube-videos`\n\n🤖 使用 [Claude Code](https://claude.com/claude-code) 生成\n\nCo-Authored-By: Claude <noreply@anthropic.com>
 
 [English](./CHANGELOG.md) | 中文
 

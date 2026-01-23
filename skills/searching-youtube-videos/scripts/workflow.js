@@ -348,7 +348,7 @@ downloads/
 \`\`\`
 
 ---
-*由 video-searcher 自动生成*
+*由 searching-youtube-videos 自动生成*
 `;
   return md;
 }

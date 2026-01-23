@@ -1,4 +1,4 @@
-# Changelog
+\n## Unreleased\n\n### Changed\n\n- **searching-youtube-videos**: Rename/optimize video-searcher skill per skill-builder conventions\n  - Fixed readline import bug in workflow.js\n  - Enhanced documentation and CLI consistency\n  - Production-ready YouTube/Bilibili search+download+ASR workflow\n\n### Technical\n\n- Added `./skills/searching-youtube-videos` to marketplace.json\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>
 
 English | [中文](./CHANGELOG.zh.md)
 

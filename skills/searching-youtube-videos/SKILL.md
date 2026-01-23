@@ -1,6 +1,13 @@
 ---
 name: searching-youtube-videos
-description: "在需要搜索/下载视频（B站、YouTube等）、提取音频或转写语音时使用此技能。使用 yt-dlp 实现搜索、下载、转码，硅基流动 FunAudioLLM 实现语音转文字。典型场景：\"搜索 3 个 Claude 教程视频\"、\"下载这个视频的音频并转写\"、\"提取视频内容为文字稿\"。"
+description: >-
+  在需要搜索/下载视频（B站、YouTube等）、提取音频或转写语音时使用此技能。使用 yt-dlp 实现搜索、下载、转码，硅基流动 FunAudioLLM
+  实现语音转文字。典型场景："搜索 3 个 Claude 教程视频"、"下载这个视频的音频并转写"、"提取视频内容为文字稿"。
+metadata:
+  author: wx_7x8xc5
+  version: 1.0.0
+  title: 视频下载助手
+  description_zh: 支持在B站或YouTube上搜索，下载视频/音频，并支持使用ASR提取字幕文件。
 ---
 
 # Video Search & Download
