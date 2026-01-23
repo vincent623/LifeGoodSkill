@@ -72,6 +72,8 @@ Simply tell Claude Code:
 | **life-evening-review** | Evening synthesis protocol for daily insight integration and next day planning |
 | **life-interrupt-prompts** | Daily interrupt prompts generator to break autopilot mode |
 | **life-vision-protocol** | Guided protocol for Anti-Vision and Vision discovery |
+| **chat-log-analyzer** | Parse Claude Code chat logs and generate productivity reports |
+| **chat-to-markdown** | Convert JSONL chat logs to readable Markdown format |
 
 ## Update Skills
 
@@ -214,6 +216,22 @@ Professional translation tools for articles and content with multiple modes.
 
 ```bash
 /life-translation
+```
+
+### chat-log-analyzer
+
+Parse Claude Code chat logs and generate productivity reports including frequently used skills, work duration, task completion rate, and activity patterns.
+
+```bash
+npx -y bun skills/chat-log-analyzer/scripts/main.js -i ./chat/chat_latest.jsonl -o ./report.html
+```
+
+### chat-to-markdown
+
+Convert JSONL chat logs to readable Markdown format with proper formatting, syntax highlighting, and conversation structure.
+
+```bash
+npx -y bun skills/chat-to-markdown/scripts/main.js -i ./chat/chat_latest.jsonl -o ./chat.md
 ```
 
 ## Environment Configuration

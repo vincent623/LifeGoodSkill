@@ -88,6 +88,8 @@ npx skills add <owner>/LifeGoodSkill
 | **life-evening-review** | 晚间复盘协议，用于每日洞察整合和次日计划 |
 | **life-interrupt-prompts** | 日间打断提示生成器，打破自动巡航模式 |
 | **life-vision-protocol** | 引导式协议，用于发现反愿景和愿景 |
+| **chat-log-analyzer** | 解析 Claude Code 对话日志，生成常用技能、工作时长、任务完成率等统计报告 |
+| **chat-to-markdown** | 将 JSONL 对话日志转换为可读性更好的 Markdown 格式 |
 
 ## 更新技能
 
@@ -222,6 +224,22 @@ npx -y bun skills/generating-mermaid-diagrams/scripts/main.js "流程描述" -t 
 
 ```bash
 /life-translation
+```
+
+### chat-log-analyzer
+
+解析 Claude Code 对话日志，生成常用技能、工作时长、任务完成率等统计报告。
+
+```bash
+npx -y bun skills/chat-log-analyzer/scripts/main.js -i ./chat/chat_latest.jsonl -o ./report.html
+```
+
+### chat-to-markdown
+
+将 JSONL 对话日志转换为可读性更好的 Markdown 格式，包含语法高亮和对话结构。
+
+```bash
+npx -y bun skills/chat-to-markdown/scripts/main.js -i ./chat/chat_latest.jsonl -o ./chat.md
 ```
 
 ## 环境配置

@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Skills for improving daily life efficiency",
-    "version": "1.3.0"
+    "version": "1.4.0"
   },
   "plugins": [
     {
@@ -36,7 +36,9 @@
         "./skills/life-compass",
         "./skills/life-evening-review",
         "./skills/life-interrupt-prompts",
-        "./skills/life-vision-protocol"
+        "./skills/life-vision-protocol",
+        "./skills/chat-log-analyzer",
+        "./skills/chat-to-markdown"
       ]
     }
   ]
