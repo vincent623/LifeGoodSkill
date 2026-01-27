@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { existsSync } from "fs";
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from "fs";
 import { join } from "path";
 
 export const CONFIG = {

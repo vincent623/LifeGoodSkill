@@ -414,7 +414,7 @@ async function searchAllQueries(queries) {
 
 async function installSkill(fullName) {
   console.log(`\n正在安装: ${fullName}`);
-  const proc = spawn(["42plugin", "install", fullName], {
+  const proc = spawn("42plugin", ["install", fullName], {
     stdout: "pipe",
     stderr: "pipe",
   });

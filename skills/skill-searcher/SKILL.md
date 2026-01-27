@@ -1,6 +1,13 @@
 ---
 name: skill-searcher
-description: "在需要搜索 42plugin 市场、安装技能、发现互补资源、扩展项目能力、查找相关插件或推荐工作流时使用此技能。工作流：探索项目类型 → 生成结构化报告 → 语义拆解关键词 → 多策略搜索 → 匹配评分 → 差距分析。典型场景：\"帮我找几个 PDF 处理技能\"、\"搜索可以管理笔记的插件\"、\"推荐一些效率工具\"。"
+description: >-
+  在需要搜索 42plugin 市场、安装技能、发现互补资源、扩展项目能力、查找相关插件或推荐工作流时使用此技能。工作流：探索项目类型 → 生成结构化报告 →
+  语义拆解关键词 → 多策略搜索 → 匹配评分 → 差距分析。典型场景："帮我找几个 PDF 处理技能"、"搜索可以管理笔记的插件"、"推荐一些效率工具"。
+metadata:
+  author: vincent
+  version: 1.0.0
+  title: 技能发现助手
+  description_zh: 帮你在42plugin中匹配最需要的技能
 ---
 
 # Skill Searcher
@@ -77,9 +84,9 @@ Claude Code 探索项目 → 生成 JSON 报告 → 脚本分析意图
 
 | File | Content |
 |------|---------|
-| `./project-types.md` | 项目类型定义与检测算法 |
-| `./matching-algorithm.md` | 匹配评分算法详情 |
-| `./adaptation-strategies.md` | 适应性改写策略 |
+| `references/project-types.md` | 项目类型定义与检测算法 |
+| `references/matching-algorithm.md` | 匹配评分算法详情 |
+| `references/adaptation-strategies.md` | 适应性改写策略 |
 
 ## Extension Support
 
