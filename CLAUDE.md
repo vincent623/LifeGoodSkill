@@ -2,121 +2,65 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Project Overview
+## 项目概述
 
-Claude Code marketplace plugin for LifeGoodSkill - skills for improving daily life efficiency.
+LifeGoodSkill - Claude Code 技能市场插件，提供提升日常生活效率的工具。
 
-## Architecture
+## 项目结构
 
-Skills are organized into plugin categories in `marketplace.json`:
+技能位于 `skills/<skill-name>/` 目录下：
 
 ```
-skills/
-├── [life-skills]              # Life improvement skills
-│   └── <skill-name>/          # Individual skill
-│       ├── SKILL.md           # YAML front matter (name, description) + documentation
-│       ├── scripts/           # TypeScript implementations
-│       └── prompts/           # AI generation guidelines (optional)
+skills/<skill-name>/
+├── SKILL.md              # YAML front matter + 文档
+├── scripts/              # 实现代码 (TypeScript/JavaScript 或 Python)
+├── prompts/              # AI 生成指南 (可选)
+├── references/           # 补充文档 (可选)
+└── assets/               # 资源文件 (可选)
 ```
 
-**Plugin Categories**:
-| Category | Description |
-|----------|-------------|
-| `life-skills` | Skills that improve daily life efficiency |
+所有技能在 `.claude-plugin/marketplace.json` 的 `life-skills` 插件下注册。
 
-Each skill contains:
-- `SKILL.md` - YAML front matter (name, description) + documentation
-- `scripts/` - TypeScript implementations
-- `prompts/` - AI generation guidelines (optional)
-
-## Running Skills
-
-All scripts run via Bun (no build step):
+## 运行技能
 
 ```bash
-npx -y bun skills/<skill>/scripts/main.ts [options]
+# TypeScript/JavaScript 技能
+npx -y bun skills/<skill>/scripts/main.js [选项]
+
+# Python 技能
+npx -y bun skills/<skill>/scripts/main.py [选项]
+
+# Claude Code 命令
+/<skill-name> [选项]
 ```
 
-Examples:
-```bash
-# Basic execution
-npx -y bun skills/<skill>/scripts/main.ts "input content"
+## 核心依赖
 
-# With options
-npx -y bun skills/<skill>/scripts/main.ts --option value
-```
+- **Bun**: TypeScript/JavaScript 运行时 (无需构建)
+- **Python 3**: Python 技能必需
+- **无 npm 包**: 脚本仅使用内置模块
 
-## Key Dependencies
+## 扩展支持
 
-- **Bun**: TypeScript runtime (via `npx -y bun`)
-- **No npm packages**: Self-contained TypeScript, no external dependencies
+技能支持通过 `EXTEND.md` 自定义，查找路径（优先级顺序）：
 
-## Plugin Configuration
+1. `.life-good-skill/<skill-name>/EXTEND.md` (项目级)
+2. `~/.life-good-skill/<skill-name>/EXTEND.md` (用户级)
 
-`.claude-plugin/marketplace.json` defines plugin metadata and skill paths. Version follows semver.
+扩展内容在技能执行前加载，覆盖默认配置。
 
-## Release Process
+## 发布流程
 
-**IMPORTANT**: When user requests release/发布/push, follow this workflow:
+用户请求发布/发布/push 时：
 
-1. `CHANGELOG.md` + `CHANGELOG.zh.md` - Both must be updated
-2. `marketplace.json` version bump
-3. `README.md` + `README.zh.md` if applicable
-4. All files committed together before tag
+1. 更新 `CHANGELOG.md` + `CHANGELOG.zh.md`
+2. 递增 `marketplace.json` 中的版本号
+3. 如需要，更新 `README.md` + `README.zh.md`
+4. 所有文件一起提交后再打标签
 
-## Adding New Skills
+## 代码风格
 
-1. Create `skills/<skill-name>/SKILL.md` with YAML front matter
-   - Directory name: `<skill-name>`
-   - SKILL.md `name` field: `<skill-name>`
-2. Add TypeScript in `skills/<skill-name>/scripts/`
-3. Add prompt templates in `skills/<skill-name>/prompts/` if needed
-4. Register in `marketplace.json`
-
-### Script Directory Template
-
-Every SKILL.md with scripts MUST include this section after Usage:
-
-```markdown
-## Script Directory
-
-**Important**: All scripts are located in the `scripts/` subdirectory of this skill.
-
-**Agent Execution Instructions**:
-1. Determine this SKILL.md file's directory path as `SKILL_DIR`
-2. Script path = `${SKILL_DIR}/scripts/<script-name>.ts`
-3. Replace all `${SKILL_DIR}` in this document with the actual path
-
-**Script Reference**:
-| Script | Purpose |
-|--------|---------|
-| `scripts/main.ts` | Main entry point |
-| `scripts/other.ts` | Other functionality |
-```
-
-When referencing scripts in workflow sections, use `${SKILL_DIR}/scripts/<name>.ts` so agents can resolve the correct path.
-
-## Code Style
-
-- TypeScript throughout, no comments
-- Async/await patterns
-- Short variable names
-- Type-safe interfaces
-
-## Extension Support
-
-Every SKILL.md MUST include an Extension Support section at the end:
-
-```markdown
-## Extension Support
-
-Custom styles and configurations via EXTEND.md.
-
-**Check paths** (priority order):
-1. `.life-good-skill/<skill-name>/EXTEND.md` (project)
-2. `~/.life-good-skill/<skill-name>/EXTEND.md` (user)
-
-If found, load before Step 1. Extension content overrides defaults.
-```
-
-Replace `<skill-name>` with the actual skill name.
+- TypeScript/JavaScript 或 Python
+- Async/await 模式
+- 短变量名
+- 类型安全接口 (TypeScript)

@@ -8,6 +8,7 @@ Skills for improving daily life efficiency with Claude Code.
 
 - Node.js environment installed
 - Ability to run `npx bun` commands
+- Python 3 (required for Python-based skills)
 
 ## Installation
 
@@ -74,6 +75,10 @@ Simply tell Claude Code:
 | **life-vision-protocol** | Guided protocol for Anti-Vision and Vision discovery |
 | **chat-log-analyzer** | Parse Claude Code chat logs and generate productivity reports |
 | **chat-to-markdown** | Convert JSONL chat logs to readable Markdown format |
+| **skill-searcher** | Intelligent resource discovery and search workflow for 42plugin marketplace |
+| **life-mole-cleaner** | Safe Mac cleanup assistant using Mole with preview-confirm-clean workflow |
+| **searching-youtube-videos** | Search, download videos from YouTube/Bilibili, and transcribe audio |
+| **life-network-troubleshooter** | Generic network troubleshooting tool with ping, DNS, and TCP port tests |
 
 ## Update Skills
 
@@ -232,6 +237,54 @@ Convert JSONL chat logs to readable Markdown format with proper formatting, synt
 
 ```bash
 npx -y bun skills/chat-to-markdown/scripts/main.js -i ./chat/chat_latest.jsonl -o ./chat.md
+```
+
+### skill-searcher
+
+Intelligent resource discovery and search workflow for 42plugin marketplace. Explores project types, generates structured reports, and matches relevant skills.
+
+```bash
+# Auto-explore project and search
+node skills/skill-searcher/scripts/workflow.js --auto --search
+
+# Search with specific query
+node skills/skill-searcher/scripts/search.js "PDF processing"
+```
+
+### life-mole-cleaner
+
+Safe Mac cleanup assistant using Mole. Follows preview-confirm-clean workflow to ensure zero risk.
+
+```bash
+# Preview cleanup (dry-run)
+node skills/life-mole-cleaner/scripts/main.ts preview
+
+# Execute cleanup (requires user confirmation)
+node skills/life-mole-cleaner/scripts/main.ts clean
+```
+
+### searching-youtube-videos
+
+Search, download videos from YouTube/Bilibili, and transcribe audio using yt-dlp and ASR.
+
+```bash
+# Search YouTube videos
+npx -y bun skills/searching-youtube-videos/scripts/search.js "Python tutorial" --limit 5
+
+# Download and transcribe
+npx -y bun skills/searching-youtube-videos/scripts/workflow.js "https://youtube.com/watch/VIDEO_ID" --download
+```
+
+### life-network-troubleshooter
+
+Generic network troubleshooting tool. Tests ping, DNS, and TCP ports with automatic markdown report generation.
+
+```bash
+# Default diagnostics
+bun skills/life-network-troubleshooter/scripts/main.ts
+
+# Test specific target and ports
+bun skills/life-network-troubleshooter/scripts/main.ts --target=example.com --ports=22,80,443
 ```
 
 ## Environment Configuration

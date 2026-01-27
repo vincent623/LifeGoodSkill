@@ -24,6 +24,7 @@
 
 - 已安装 Node.js 环境
 - 能够运行 `npx bun` 命令
+- Python 3（Python 技能必需）
 
 ## 安装
 
@@ -90,6 +91,10 @@ npx skills add <owner>/LifeGoodSkill
 | **life-vision-protocol** | 引导式协议，用于发现反愿景和愿景 |
 | **chat-log-analyzer** | 解析 Claude Code 对话日志，生成常用技能、工作时长、任务完成率等统计报告 |
 | **chat-to-markdown** | 将 JSONL 对话日志转换为可读性更好的 Markdown 格式 |
+| **skill-searcher** | 42plugin 市场的智能资源发现与搜索工作流 |
+| **life-mole-cleaner** | 使用 Mole 的安全 Mac 清理助手，遵循预览→确认→清理流程 |
+| **searching-youtube-videos** | 搜索、下载 YouTube/B站视频，并转写音频 |
+| **life-network-troubleshooter** | 通用网络故障排查工具，支持 ping、DNS 和 TCP 端口测试 |
 
 ## 更新技能
 
@@ -240,6 +245,54 @@ npx -y bun skills/chat-log-analyzer/scripts/main.js -i ./chat/chat_latest.jsonl 
 
 ```bash
 npx -y bun skills/chat-to-markdown/scripts/main.js -i ./chat/chat_latest.jsonl -o ./chat.md
+```
+
+### skill-searcher
+
+42plugin 市场的智能资源发现与搜索工作流。探索项目类型，生成结构化报告，匹配相关技能。
+
+```bash
+# 自动探索项目并搜索
+node skills/skill-searcher/scripts/workflow.js --auto --search
+
+# 使用特定查询搜索
+node skills/skill-searcher/scripts/search.js "PDF 处理"
+```
+
+### life-mole-cleaner
+
+使用 Mole 的安全 Mac 清理助手，遵循预览→确认→清理流程，确保零风险。
+
+```bash
+# 预览清理（干运行）
+node skills/life-mole-cleaner/scripts/main.ts preview
+
+# 执行清理（需用户确认）
+node skills/life-mole-cleaner/scripts/main.ts clean
+```
+
+### searching-youtube-videos
+
+搜索、下载 YouTube/B站视频，使用 yt-dlp 和 ASR 转写音频。
+
+```bash
+# 搜索 YouTube 视频
+npx -y bun skills/searching-youtube-videos/scripts/search.js "Python 教程" --limit 5
+
+# 下载并转写
+npx -y bun skills/searching-youtube-videos/scripts/workflow.js "https://youtube.com/watch/VIDEO_ID" --download
+```
+
+### life-network-troubleshooter
+
+通用网络故障排查工具。测试 ping、DNS 和 TCP 端口，自动生成 Markdown 诊断报告。
+
+```bash
+# 默认诊断
+bun skills/life-network-troubleshooter/scripts/main.ts
+
+# 测试指定目标和端口
+bun skills/life-network-troubleshooter/scripts/main.ts --target=example.com --ports=22,80,443
 ```
 
 ## 环境配置
